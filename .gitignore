@@ -1,0 +1,35 @@
+# Miscellaneous
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.idea
+.metadata
+.tm_properties
+
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+build/
+ios/Pods/
+ios/Runner.xcworkspace
+pubspec.lock
+
+# Android related
+/android/app/google-services.json
+/android/key.properties
+/android/local.properties
+/android/.gradle
+/android/app/build
+/android/build
+
+# Sensitive files
+*.pem
+*.cer
+google-services.json

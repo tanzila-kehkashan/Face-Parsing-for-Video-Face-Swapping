@@ -1,0 +1,182 @@
+{
+  "samples_analyzed": 100,
+  "total_pixels": 14745600,
+  "class_distribution": {
+    "background": {
+      "index": 0,
+      "pixel_count": 4502284,
+      "pixel_percentage": 30.533067491319443,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "skin": {
+      "index": 1,
+      "pixel_count": 3807478,
+      "pixel_percentage": 25.82111273871528,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "l_brow": {
+      "index": 2,
+      "pixel_count": 66346,
+      "pixel_percentage": 0.4499376085069445,
+      "presence_count": 98,
+      "presence_percentage": 98.0
+    },
+    "r_brow": {
+      "index": 3,
+      "pixel_count": 65637,
+      "pixel_percentage": 0.44512939453125006,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "l_eye": {
+      "index": 4,
+      "pixel_count": 31381,
+      "pixel_percentage": 0.21281602647569442,
+      "presence_count": 93,
+      "presence_percentage": 93.0
+    },
+    "r_eye": {
+      "index": 5,
+      "pixel_count": 30240,
+      "pixel_percentage": 0.205078125,
+      "presence_count": 92,
+      "presence_percentage": 92.0
+    },
+    "eye_g": {
+      "index": 6,
+      "pixel_count": 47030,
+      "pixel_percentage": 0.3189425998263889,
+      "presence_count": 6,
+      "presence_percentage": 6.0
+    },
+    "l_ear": {
+      "index": 7,
+      "pixel_count": 86689,
+      "pixel_percentage": 0.5878974066840278,
+      "presence_count": 61,
+      "presence_percentage": 61.0
+    },
+    "r_ear": {
+      "index": 8,
+      "pixel_count": 60618,
+      "pixel_percentage": 0.41109212239583337,
+      "presence_count": 48,
+      "presence_percentage": 48.0
+    },
+    "ear_r": {
+      "index": 9,
+      "pixel_count": 15489,
+      "pixel_percentage": 0.10504150390625,
+      "presence_count": 26,
+      "presence_percentage": 26.0
+    },
+    "nose": {
+      "index": 10,
+      "pixel_count": 312209,
+      "pixel_percentage": 2.1173027886284723,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "mouth": {
+      "index": 11,
+      "pixel_count": 50287,
+      "pixel_percentage": 0.3410305447048611,
+      "presence_count": 63,
+      "presence_percentage": 63.0
+    },
+    "u_lip": {
+      "index": 12,
+      "pixel_count": 60419,
+      "pixel_percentage": 0.4097425672743056,
+      "presence_count": 99,
+      "presence_percentage": 99.0
+    },
+    "l_lip": {
+      "index": 13,
+      "pixel_count": 102850,
+      "pixel_percentage": 0.6974962022569444,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "neck": {
+      "index": 14,
+      "pixel_count": 540076,
+      "pixel_percentage": 3.662624782986111,
+      "presence_count": 98,
+      "presence_percentage": 98.0
+    },
+    "neck_l": {
+      "index": 15,
+      "pixel_count": 2042,
+      "pixel_percentage": 0.013848198784722222,
+      "presence_count": 3,
+      "presence_percentage": 3.0
+    },
+    "cloth": {
+      "index": 16,
+      "pixel_count": 427045,
+      "pixel_percentage": 2.896084255642361,
+      "presence_count": 63,
+      "presence_percentage": 63.0
+    },
+    "hair": {
+      "index": 17,
+      "pixel_count": 4480625,
+      "pixel_percentage": 30.386182996961807,
+      "presence_count": 100,
+      "presence_percentage": 100.0
+    },
+    "hat": {
+      "index": 18,
+      "pixel_count": 56855,
+      "pixel_percentage": 0.3855726453993056,
+      "presence_count": 2,
+      "presence_percentage": 2.0
+    }
+  },
+  "class_weights": {
+    "background": 0.005475867539644241,
+    "skin": 0.006475128699094057,
+    "l_brow": 0.3715960383415222,
+    "r_brow": 0.37560996413230896,
+    "l_eye": 0.7856317758560181,
+    "r_eye": 0.8152748346328735,
+    "eye_g": 0.5242167115211487,
+    "l_ear": 0.28439491987228394,
+    "r_ear": 0.4067094027996063,
+    "ear_r": 1.5917044878005981,
+    "nose": 0.07896605134010315,
+    "mouth": 0.49026408791542053,
+    "u_lip": 0.40804898738861084,
+    "l_lip": 0.23970744013786316,
+    "neck": 0.0456489659845829,
+    "neck_l": 12.073413848876953,
+    "cloth": 0.05773141235113144,
+    "hair": 0.0055023375898599625,
+    "hat": 0.4336278438568115
+  },
+  "potential_issues": [
+    "Very rare classes (< 0.1% pixels): neck_l",
+    "Rarely present classes (< 10% of images): eye_g, neck_l, hat"
+  ],
+  "summary": {
+    "most_common_class": [
+      "background",
+      30.533067491319443
+    ],
+    "rarest_class": [
+      "neck_l",
+      0.013848198784722222
+    ],
+    "most_present_class": [
+      "background",
+      100.0
+    ],
+    "least_present_class": [
+      "hat",
+      2.0
+    ]
+  }
+}

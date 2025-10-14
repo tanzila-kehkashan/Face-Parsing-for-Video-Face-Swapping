@@ -1,0 +1,58 @@
+[2025-05-24 08:42:04] INFO: Creating directory structure...
+[2025-05-24 08:42:04] INFO: Created: datasets/celebamask_hq
+[2025-05-24 08:42:04] INFO: Created: models/pretrained
+[2025-05-24 08:42:04] INFO: Created: models/checkpoints
+[2025-05-24 08:42:04] INFO: Created: research_finetuning/Part_0_Setup
+[2025-05-24 08:42:04] INFO: Created: research_finetuning/Part_1_Data
+[2025-05-24 08:42:04] INFO: Created: research_finetuning/Part_2_Model
+[2025-05-24 08:42:04] INFO: Created: research_finetuning/Part_3_Training
+[2025-05-24 08:42:04] INFO: Created: research_finetuning/Part_4_Results
+[2025-05-24 08:42:04] INFO: Created: outputs/logs/training
+[2025-05-24 08:42:04] INFO: Created: outputs/logs/system
+[2025-05-24 08:42:04] INFO: Created: outputs/logs/errors
+[2025-05-24 08:42:04] INFO: Created: outputs/tensorboard
+[2025-05-24 08:42:04] INFO: Created: outputs/figures
+[2025-05-24 08:42:04] INFO: Created: outputs/paper_artifacts/figures
+[2025-05-24 08:42:04] INFO: Created: outputs/paper_artifacts/tables
+[2025-05-24 08:42:04] INFO: Created: outputs/paper_artifacts/supplementary
+[2025-05-24 08:42:04] INFO: Created: configs/experiments
+[2025-05-24 08:42:04] INFO: Created: configs/hardware
+[2025-05-24 08:42:04] INFO: Created: notebooks
+[2025-05-24 08:42:04] INFO: Created: scripts
+[2025-05-24 08:42:04] INFO: Created: tests
+[2025-05-24 08:42:04] INFO: Created: data/processed
+[2025-05-24 08:42:04] INFO: Created: data/raw
+[2025-05-24 08:42:04] INFO: Copying model files...
+[2025-05-24 08:42:05] INFO: Copied model: 79999_iter.pth
+[2025-05-24 08:42:05] INFO: Copied: face_parsing/model.py -> research_finetuning/Part_2_Model/bisenet_original.py
+[2025-05-24 08:42:05] INFO: Copied: face_parsing/resnet.py -> research_finetuning/Part_2_Model/resnet.py
+[2025-05-24 08:42:05] INFO: Copied: face_parsing/parse_mask.py -> research_finetuning/Part_1_Data/mask_utils_original.py
+[2025-05-24 08:42:05] INFO: Creating __init__.py files...
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/__init__.py
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/Part_0_Setup/__init__.py
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/Part_1_Data/__init__.py
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/Part_2_Model/__init__.py
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/Part_3_Training/__init__.py
+[2025-05-24 08:42:05] INFO: Created: research_finetuning/Part_4_Results/__init__.py
+[2025-05-24 08:42:05] INFO: Created: scripts/__init__.py
+[2025-05-24 08:42:05] INFO: Created: tests/__init__.py
+[2025-05-24 08:42:05] INFO: Creating configuration files...
+[2025-05-24 08:42:05] INFO: Created: configs/default.yaml
+[2025-05-24 08:42:05] INFO: Created: configs/hardware/gtx1660super.yaml
+[2025-05-24 08:42:05] INFO: Creating environment file...
+[2025-05-24 08:42:05] INFO: Created: environment.yml
+[2025-05-24 08:42:05] INFO: Creating .gitignore...
+[2025-05-24 08:42:05] INFO: Created: .gitignore
+[2025-05-24 08:42:05] INFO: Creating README.md...
+[2025-05-24 08:42:05] INFO: Created: README.md
+[2025-05-24 08:42:05] INFO: Creating requirements.txt...
+[2025-05-24 08:42:05] INFO: Created: requirements.txt
+[2025-05-24 08:42:05] INFO: Creating dataset split files...
+[2025-05-24 08:42:05] INFO: Created: train.txt (1000 samples)
+[2025-05-24 08:42:05] INFO: Created: val.txt (200 samples)
+[2025-05-24 08:42:05] INFO: Created: test.txt (200 samples)
+[2025-05-24 08:42:05] INFO: Creating utility scripts...
+[2025-05-24 08:42:05] INFO: Created: scripts/verify_setup.py
+[2025-05-24 08:42:05] INFO: Created: scripts/clean_cache.py
+[2025-05-24 08:42:05] INFO: Creating notebooks...
+[2025-05-24 08:42:05] INFO: Created: notebooks/01_data_exploration.ipynb

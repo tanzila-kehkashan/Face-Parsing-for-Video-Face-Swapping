@@ -1,0 +1,31 @@
+# Core requirements for dependency checking
+packaging>=21.0
+psutil>=5.9.0
+pyyaml>=6.0
+
+# These will be checked but not necessarily installed here
+# They should be installed via conda environment or install_requirements.py
+# Listed here for reference:
+
+# PyTorch (install with CUDA 11.8)
+# torch==2.0.1+cu118
+# torchvision==0.15.2+cu118
+
+# Core packages
+# numpy==1.24.3
+# opencv-python-headless==4.8.0.74
+# Pillow>=9.5.0
+# matplotlib==3.7.1
+# tqdm>=4.65.0
+
+# ML packages  
+# albumentations==1.3.1
+# segmentation-models-pytorch==0.3.3
+# einops==0.6.1
+# timm==0.9.2
+# tensorboardX==2.6
+
+# Optional development
+# jupyter
+# pytest
+# black

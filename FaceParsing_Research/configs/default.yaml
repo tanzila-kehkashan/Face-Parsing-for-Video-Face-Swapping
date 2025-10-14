@@ -1,0 +1,191 @@
+﻿# 🏆 OPTIMIZED 3K DATASET CONFIGURATION FOR L4 GPU
+# Enhanced for maximum performance and speed with your balanced 3K dataset
+
+dataset:
+  root_dir: /content/CelebAMask-HQ
+  image_size: 512
+  num_classes: 19
+  ignore_index: 255
+  subset_size: null
+
+model:
+  num_classes: 19
+  backbone: resnet34
+  pretrained_path: null
+  # 🚀 CRITICAL LORA OPTIMIZATIONS
+  lora_rank: 32                     # INCREASED from 8 for better capacity
+  lora_alpha: 32                    # 1:1 ratio with rank for stability
+  lora_dropout: 0.1
+  # 🎯 TARGET SPECIFIC MODULES (Major Performance Fix)
+  lora_target_modules:
+    - "context_path.layer2"
+    - "context_path.layer3" 
+    - "context_path.layer4"
+    - "ffm"
+    - "conv_out"
+  lora_exclude_modules:
+    - conv1
+    - conv_pred
+
+training:
+  epochs: 120                       # Good for 3K dataset
+  batch_size: 16                    # Optimal for L4 GPU
+  # 🚀 CRITICAL LEARNING RATE FIX
+  learning_rate: 0.00005            # REDUCED from 0.0003 for LoRA stability
+  weight_decay: 0.0001
+  # ⚡ FASTER TRAINING OPTIMIZATION
+  gradient_accumulation_steps: 2    # Effective batch size: 32 (faster than 4)
+  max_grad_norm: 1.0
+  mixed_precision: true
+  
+  scheduler: CosineAnnealingLR
+  use_warmup: true
+  warmup_steps: 50
+  warmup_factor: 0.1
+  
+  # 🎯 OPTIMIZED LOSS FOR 3K BALANCED DATASET
+  ce_loss_weight: 0.2               # REDUCED CE dominance
+  dice_loss_weight: 0.8             # INCREASED Dice for better segmentation
+  use_aux_loss: true
+  aux_loss_weight: 0.2
+  
+  # 🎯 CLASS WEIGHTING FOR 3K BALANCED DATA
+  max_class_weight: 2.5             # Conservative for balanced dataset
+  min_class_weight: 0.5
+  normalize_class_weights: true
+  weight_smoothing_power: 0.5       # Smoothing for stability
+  num_samples_for_stats: 3000       # Use all your 3K images
+  
+  # ⚡ FASTER VALIDATION SETTINGS
+  validation_frequency: 1           # Every epoch for quick feedback
+  checkpoint_frequency_epoch: 10
+  early_stopping_patience: 15       # Reduced for faster iterations
+  early_stopping_threshold: 0.005
+  log_frequency_iter: 10
+  clear_cache_frequency_iter: 20
+  
+  # 🔧 ENHANCED DEBUGGING
+  debug_mode: true
+  check_gradients: true
+  log_grad_norms: true
+  validate_data: true
+  max_loss_threshold: 8.0           # Slightly reduced threshold
+  min_loss_threshold: 0.001
+  seed: 42
+
+system:
+  num_workers: 4                    # Optimal for L4
+  pin_memory: true
+  device: cuda
+  persistent_workers: true
+
+advanced:
+  augmentation_strength: moderate
+  use_attention_refinement: true
+  use_feature_fusion: true
+  optimizer_type: AdamW
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1.0e-08
+  backbone_lr_multiplier: 0.1       # Lower LR for pretrained backbone
+
+# 🚀 L4 GPU SPECIFIC OPTIMIZATIONS
+l4_optimization:
+  use_tensor_cores: true
+  conservative_memory: false
+  stable_training: true
+  optimal_batch_size: 16
+  max_memory_usage: 0.85            # Use more of 22GB L4 memory
+  torch_compile_mode: "max-autotune"
+  use_float16: true
+  memory_efficient_attention: true
+  gradient_checkpointing: false     # L4 has enough memory
+
+# 🎯 ENHANCED MEMORY OPTIMIZATION
+memory_optimization:
+  max_memory_fraction: 0.85         # Increased for L4
+  cache_dataset: true               # Cache your 3K dataset
+  prefetch_factor: 4
+  use_channels_last: true
+  benchmark_cudnn: true
+  empty_cache_steps: 20             # More frequent cache clearing
+  gc_collect_steps: 40
+
+# ⚡ HARDWARE OPTIMIZATION FOR SPEED
+hardware_optimization:
+  l4_batch_size: 16
+  l4_image_size: 512
+  l4_accumulation_steps: 2          # Reduced for speed
+  torch_threads: 4
+  mkl_threads: 4
+  use_tensor_cores: true
+  enable_torch_compile: true        # PyTorch 2.0 compilation
+
+# 🔧 ENHANCED DEBUG SETTINGS
+debug:
+  save_first_batch: true
+  memory_monitoring: true
+  validation_samples: 5
+  log_model_stats: true             # Log LoRA statistics
+
+# 🎯 LOSS CONFIGURATION OPTIMIZED FOR 3K DATASET
+loss_config:
+  ce_label_smoothing: 0.0
+  ce_ignore_index: 255
+  dice_smooth: 1.0
+  weight_strategy: inverse_frequency
+  weight_clip_range: [0.5, 2.5]    # Conservative range for balanced data
+  focal_loss_gamma: 0.0             # Disabled for balanced dataset
+
+# 🚀 TRAINING STRATEGY FOR FAST CONVERGENCE
+training_strategy:
+  use_different_lr_for_backbone: true
+  backbone_lr_ratio: 0.1
+  dice_loss_ramp_epochs: 5          # Gradual Dice loss increase
+  aux_loss_decay_epochs: 20
+  cosine_restarts: false            # Simplified for faster training
+
+# 📊 VALIDATION OPTIMIZATION FOR 3K DATASET
+validation_optimization:
+  clear_cache_every_n_batches: 10
+  compute_metrics_online: true
+  fast_validation: false            # Compute all 228 metrics
+  sample_validation: false          # Use full validation set
+
+# 🎯 DATA OPTIMIZATION FOR 3K BALANCED DATASET
+data_optimization:
+  drop_last: true
+  shuffle_buffer_size: 3000         # Matches your dataset size
+  num_workers_val: 2                # Reduced for validation
+  pin_memory_val: true
+  persistent_workers_val: true
+
+# 📈 METRICS CONFIGURATION
+metrics:
+  compute_comprehensive: true       # All 228 metrics
+  save_confusion_matrix: true
+  save_per_class_metrics: true
+  log_rare_class_performance: true  # Special tracking for glasses, hat, necklace
+  frequency_weighted_metrics: true
+
+# 🎯 RARE CLASS OPTIMIZATION (For your 3 challenging classes)
+rare_class_config:
+  rare_classes: [6, 15, 18]         # eye_g, neck_l, hat
+  rare_class_weight_multiplier: 1.5 # Slight boost for rare classes
+  rare_class_dice_weight: 0.9       # Higher Dice weight for rare classes
+  track_rare_class_metrics: true
+
+# 🚀 PERFORMANCE TARGETS (Expected with this config)
+performance_targets:
+  target_miou: 0.30                 # Realistic for 3K balanced dataset
+  target_pixel_accuracy: 0.90      # High accuracy expected
+  target_mean_f1: 0.45              # Good F1 across classes
+  convergence_epochs: 40            # Expected convergence time
+
+# 🔧 COLAB SPECIFIC OPTIMIZATIONS
+colab_optimization:
+  mount_drive_cache: true
+  use_high_ram: true
+  prevent_timeout: true
+  save_checkpoints_to_drive: true
+  tensorboard_log_dir: "/content/drive/MyDrive/FaceParsing_Research/tensorboard_logs"

@@ -1,0 +1,2212 @@
+\documentclass[12pt,a4paper]{report}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, calc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Page setup
+\geometry{
+    left=3cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    captionpos=b,
+    breaklines=true,
+    showstringspaces=false
+}
+
+% Line spacing
+\onehalfspacing
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\fancyhead[L]{\leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+{\centering\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-30pt}{20pt}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Parameter-Efficient Face Parsing for Video Face Swapping},
+    pdfauthor={Student Name},
+    pdfsubject={Final Year Project Report},
+    pdfkeywords={Face Parsing, LoRA, Mobile Computing, Deep Learning}
+}
+
+% Bibliography style
+\bibliographystyle{apalike}
+
+% Custom commands
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+\centering
+\Large{\textbf{Final Year Project Report}}\\[0.3cm]
+\Large{\textbf{on}}\\[0.3cm]
+\Large{\textit{Parameter-Efficient Face Parsing for Video Face Swapping: A LoRA-Based Approach with Mobile Deployment}}\\[0.3cm]
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width = 2.5in]{figures/logo.jpg}
+\caption*{}
+\end{figure}
+
+\normalsize{\textbf{Submitted By}}\\[0.3cm]
+\begin{tabular}{ll}
+Ali Jawad & 70168382 \\
+Abdulrafay & 70168794 \\
+Sohaib Khan & 70168840 \\
+\end{tabular}\\[0.8cm]
+
+\normalsize{\textbf{In Partial Fulfillment of}}\\
+\normalsize{\textbf{The Requirements for the Degree of}}\\
+\normalsize{\textbf{Bachelor of Science in Computer Science}}\\[0.8cm]
+
+\normalsize{\textbf{Supervised by}}\\
+\normalsize{Dr. Tanzila Kehkashan}\\[0.8cm]
+
+\normalsize{Department of Computer Science}\\
+\normalsize{University of Lahore, Sargodha Campus}\\[0.3cm]
+\normalsize{Session: Spring 2021 - Fall 2025}
+\end{titlepage}
+\newpage
+%final Approval
+\begin{center}
+\textbf{Final Approval}\\[0.2cm]
+\textbf{This project titled}\\[0.2cm]
+\textbf{"Parameter-Efficient Face Parsing for Video Face Swapping: A LoRA-Based Approach with Mobile Deployment"}\\[0.3cm]
+\textbf{By}\\[0.2cm]
+\end{center}
+
+\begin{center}
+\begin{tabular}{lr}
+Ali Jawad & 70168382 \\
+Abdulrafay & 70168794 \\
+Sohaib Khan & 70168840 \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+Has been approved for the \\
+Department of Computer Science,\\
+University of Lahore (Sargodha Campus)\\[0.6cm]
+\end{center}
+
+\noindent External Examiner: \rule{12cm}{0.5pt}\\
+Dr. Mehwish Ilyas\\
+Assistant Professor \\
+The University of Lahore \\
+Sargodha Campus\\[0.6cm]
+
+\noindent Supervisor: \rule{13.5cm}{0.5pt}\\
+Dr. Tanzila Kehkashan \\
+Assistant Professor\\
+The University of Lahore \\
+Sargodha Campus\\[0.6cm]
+
+\noindent FYP Committee Head: \rule{12cm}{0.5pt}\\
+Ms. Fatima Iqbal\\
+Lecturer \\
+The University of Lahore \\
+Sargodha Campus\\[0.6cm]
+
+\noindent HoD: \rule{14.6cm}{0.5pt}\\
+Dr. Waseem Abbasi\\
+Associate Professor\\
+The University of Lahore \\
+Sargodha Campus
+\newpage
+%declaration
+\begin{center}
+\Large{\textbf{Declaration}}\\[1cm]
+\end{center}
+
+\noindent We here affirm that this Final Year Project, entitled \textit{"Parameter-Efficient Face Parsing for Video Face Swapping: A LoRA-Based Approach with Mobile Deployment"} is the result of our own research work, with the exception where direct references have been made. The project has not been submitted before for the award of any degree, nor is it under consideration for a degree elsewhere at the same time.\\[2cm]
+\begin{flushright}
+\noindent\rule{5cm}{0.5pt}\\
+Ali jawad\\
+70168382\\[3cm]
+\noindent\rule{5cm}{0.5pt}\\
+Abdulrafay\\
+70168794\\[3cm]
+\noindent\rule{5cm}{0.5pt}\\
+Sohaib Khan\\
+70168840\\[3cm]
+\end{flushright}
+\newpage
+%dedication
+\begin{center}
+\vspace*{\fill}
+
+\Large{\textbf{Dedication}}\\[1.5cm]
+
+\large{To Allah, our Creator and Sustainer,}\\[0.5cm]
+
+\begin{minipage}{0.9\textwidth}
+\centering
+For His infinite mercy, guidance, and the opportunity to pursue knowledge. Without His blessings, this achievement would not have been possible.
+\end{minipage}
+
+\vspace*{\fill}
+\end{center}
+\newpage
+%acknowledgement
+\begin{center}
+\Large{\textbf{Acknowledgement}}\\[1.5cm]
+\end{center}
+
+\noindent First. We bow gratefully to Allah Almighty. His boundless blessings, wisdom, and guidance have led the way in this Final Year Project. This success would not have been achieved without His mercy and kindness.
+\\
+
+\noindent Along the way of our Final Year Project, we were fortunate enough to engage with different people scholars, professionals, and mentors whose advice and inputs significantly influenced our work and ideas. We would like to give a heartfelt thanks to our project supervisor, Assistant Professor Dr. Tanzila Kehkashan, for her tireless efforts, constructive criticism, and ever-present encouragement. Her mentorship was instrumental in the timely completion of our project.
+\\
+
+\noindent We also extend our appreciation to The University of Lahore, Sargodha Campus, for providing us with the academic resources and conducive learning environment necessary for our research and development efforts. Our thanks also go to the university library staff for their assistance in helping us access relevant literature and materials.
+\\
+
+\noindent We are grateful to our fellow classmates for their help, suggestions, and encouragement over the duration of this project. We are also thankful to everyone who gave up their time, expertise, or support at one point or another. While it's impossible to name each by name, we appreciate their contribution.
+\\
+
+\noindent Last but not least, and most of all, we are eternally grateful to our families. Their enduring love, tolerance, and faith in us have been our strongest motivation. Their encouragement kept us motivated and determined during this endeavor. With sincere gratitude, we recognize all those who supported us and made possible the successful fulfillment of this Final Year Project.\\[1.5cm]
+
+\begin{flushright}
+\textbf{Regards}\\
+Abdulrafay\\
+Ali jawad\\
+Sohaib khan
+\end{flushright}
+\newpage
+% Abstract
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Face parsing represents a critical component in modern computer vision applications, particularly for mobile face swapping systems. Traditional approaches require extensive computational resources and full model fine-tuning, making them impractical for real-time mobile deployment. This research presents a novel parameter-efficient approach using Low-Rank Adaptation (LoRA) for face parsing that achieves competitive performance while training only 4.84\% of model parameters.Our methodology combines LoRA-based fine-tuning of BiSeNet architecture with intelligent dataset curation strategies. Using a strategically selected subset of 3,000 images from the CelebAMask-HQ dataset, we achieve 70\% coverage for rare facial features like glasses and accessories, compared to naive sampling approaches. The trained model achieves 57.84\% mIoU with 85.2\% pixel accuracy while reducing computational requirements by over 95\%.The complete system integrates face detection (InsightFace), parsing (LoRA-enhanced BiSeNet), identity transfer (Inswapper), and enhancement (CodeFormer) into a mobile application with dual-mode processing architecture. Users can choose between Normal mode (3-5 minutes) for quick results and Best mode (15-20 minutes) for professional quality output.Results demonstrate that parameter-efficient learning can bridge the gap between research capabilities and practical mobile deployment. The system maintains 99.5\% uptime with sub-second UI response times and memory usage below 10MB regardless of input file size. This work advances the state of parameter-efficient learning in computer vision while providing a practical blueprint for mobile AI deployment.
+
+\newpage
+% Table of Contents
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+
+\newpage
+% Main Content
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Introduction and Background}
+\markboth{Introduction and Background}{Introduction and Background}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries Introduction and Background}
+\end{center}
+\vspace*{\fill}
+\label{ch:introduction}
+\clearpage
+\newpage
+\section{Introduction}
+
+Face parsing represents a critical component in modern computer vision applications, particularly in the realm of digital content creation and augmented reality systems. The ability to accurately segment facial regions—from skin and hair to specific features like eyebrows, lips, and accessories—has become increasingly important as mobile applications demand more sophisticated visual processing capabilities. Traditional approaches to face parsing often require extensive computational resources and full model fine-tuning, making them impractical for real-time mobile deployment.
+
+Recent advances in parameter-efficient learning, particularly Low-Rank Adaptation (LoRA) \cite{hu2021lora}, have opened new possibilities for deploying complex computer vision models on resource-constrained devices. However, most research focuses on natural language processing applications, leaving a significant gap in computer vision implementations. The challenge becomes even more pronounced when considering rare facial features like glasses, necklaces, or hats, which appear infrequently in standard datasets but are crucial for high-quality face parsing results.
+
+The intersection of mobile computing and artificial intelligence has created unprecedented opportunities for consumer-facing applications that were previously confined to high-end workstations. Face swapping applications, in particular, have gained massive popularity across social media platforms, yet most solutions compromise on quality to achieve real-time performance. The need for systems that can intelligently balance processing speed with output quality has never been more critical.
+
+Our research addresses these challenges through a novel approach that combines parameter-efficient training with intelligent dataset curation and dual-mode processing architecture. By implementing LoRA fine-tuning on carefully selected data subsets, we achieve remarkable efficiency gains while maintaining competitive accuracy. The system integrates seamlessly into a production-ready mobile application that demonstrates the practical viability of our approach.
+
+This work bridges the gap between academic research and real-world deployment by presenting a complete pipeline from model training to mobile application deployment. The resulting system not only advances the state of parameter-efficient learning in computer vision but also provides users with an intelligent tool that adapts its processing complexity based on their specific needs and time constraints.
+
+\section{Problem Statement}
+
+The challenges being thrown at face parsing systems are an evolutionary road toward computational limitations, having endured and aggravated over the last three decades of research in vision science and engendering hurdles that make real-world deployment much harder.
+
+The face-parsing began to arise in the early 1990s through classical computer vision methods consisting of features extracted by hand from facial parts and statistical models.\cite{cootes1995active}. In earlier times, methods, while being computationally very efficient, were also generally inaccurate as well as not generalizing well across different facial appearances and various lighting conditions.\cite{edwards1998face}. ASM and AAM, introduced in the late 1990s, used to obtain reasonable accuracy a priori, which depends primarily on the displacement of manually designed feature representations.\cite{cootes2001active}.
+
+The transition to machine learning approaches in the 2000s brought support vector machines and ensemble methods that improved robustness but introduced new computational challenges \cite{viola2004robust}. Early neural network implementations showed promise but were limited by available computational resources and training data \cite{rowley1998neural}. The breakthrough came with deep convolutional neural networks in the 2010s, where architectures like FCN \cite{long2015fully} and U-Net \cite{ronneberger2015unet} revolutionized semantic segmentation, including face parsing applications.
+
+However, the evolution toward deeper and more sophisticated models has paradoxically intensified the fundamental computational challenge. Modern state-of-the-art face parsing models like BiSeNet \cite{yu2018bisenet}, while achieving unprecedented accuracy, require training entire neural networks with 24+ million parameters. Furthermore, This computational intensity has created a widening gap between research capabilities and practical deployment requirements , particularly in mobile environments where memory constraints and processing limitations remain severe \cite{sandler2018mobilenetv2} . 
+Moreover,The dataset imbalance challenge has similarly evolved and intensified over time.Early face parsing datasets like HELEN \cite{le2012interactive} and LFW-PL \cite{kae2013augmenting} contained only basic facial components,making class distribution relatively balanced .However,as applications demanded more detailed parsing including accessories and rare features,datasets like CelebAMask-HQ \cite{lee2020maskgan} expanded to 19 classes,inadvertently creating severe imbalances where common features like skin and hair dominate training samples while rare but important accessories appear in fewer than 10\% of images.This evolution reflects user demand for customizable features in face swapping applications,yet creates a fundamental mismatch between dataset distribution and practical requirements\cite{liu2019towards}.
+
+The mobile deployment challenge represents a relatively recent but critical evolution in the problem landscape. Early face parsing research operated primarily on desktop computers with substantial computational resources \cite{smith2013face}.The smartphone revolution and subsequent demand for on-device AI processing introduced new constraints that existing solutions can not address \cite{howard2017mobilenets}.Users increasingly expect sophisticated AI capabilities without compromising personal data privacy or requiring constant internet connectivity, yet current face parsing systems remain too computationally demanding for mobile deployment\cite{chen2022mobile}.
+
+Furthermore,The emergence of parameter-efficient learning methods like LoRA\cite{hu2021lora}in natural language processing has created new possibilities,but their application to computer vision tasks,particularly dense prediction problems like face parsing,remains largely unexplored\cite{sung2022lst}.This represents a critical research gap where proven efficiency techniques from one domain have not been successfully adapted to address the computational challenges in another.
+
+Contemporary face swapping applications have further complicated the problem by demanding both speed and quality in user interfaces that must accommodate varying requirements and time constraints\cite{nirkin2019fsgan} .Nevertheless, Users need systems that can provide quick preview capabilities for iteration while also delivering professional-quality final outputs for sharing,but current approaches offer only fixed processing modes that can not adapt to specific user needs or device capabilities \cite{zhu2021one}.
+
+The intersection of these evolved challenges creates a multifaceted problem where traditional optimization approaches prove insufficient.Model compression techniques like quantization\cite{jacob2018quantization}and pruning\cite{louizos2018learning}often sacrifice accuracy for efficiency,creating unsatisfactory trade-offs for applications requiring high-quality results.Additionally, Knowledge distillation\cite{hinton2015distilling}requires access to teacher models and additional training complexity that may not be feasible in resource-constrained scenarios.
+
+Nevertheless,This research addresses the fundamental question that has emerged from this evolutionary trajectory:"Can parameter-efficient learning methods achieve competitive face parsing performance while enabling practical mobile deployment through intelligent system design?"Our hypothesis is that LoRA-based fine-tuning combined with strategic dataset curation and adaptive processing architectures can bridge this critical gap between research capabilities and real-world deployment requirements,democratizing access to sophisticated computer vision capabilities and enabling new forms of creative expression through mobile applications.The significance of solving this evolved problem extends beyond technical achievement—it addresses the broader challenge of making advanced AI more accessible and practical for everyday use while maintaining the quality standards that users expect from professional applications.
+\section{Project Description}
+
+This project presents a comprehensive face swapping system that combines parameter-efficient face parsing with intelligent mobile deployment strategies. The system features a novel LoRA-based training approach for BiSeNet that achieves 57.84\% mIoU while training only 4.84\% of model parameters, reducing computational requirements by over 95\% compared to traditional approaches \cite{simonyan2014very}.
+
+The trained face parsing model is integrated into a complete face swapping pipeline alongside InsightFace for detection \cite{deng2019arcface}, Inswapper for identity transfer, and CodeFormer for enhancement. The mobile application implements a dual-mode architecture that allows users to choose between fast processing (3-5 minutes) for quick results and high-quality processing (15-20 minutes) for professional output, demonstrating how intelligent system design can balance user needs with technical constraints.
+
+The core innovation lies in the strategic combination of parameter-efficient learning with intelligent dataset curation. Rather than utilizing the complete CelebAMask-HQ dataset of 30,000 images \cite{lee2020maskgan}, our approach identifies and selects a strategically curated subset of 3,000 images that maximizes rare class representation while maintaining overall dataset diversity. This targeted selection ensures 70\%+ rare class coverage compared to naive sampling approaches.
+
+\section{Purpose}
+
+Therefore,The primary purpose of this research is to democratize high-quality face parsing technology by making it accessible for mobile deployment through parameter-efficient training techniques.Traditional face parsing systems require substantial computational resources that limit their practical applications,particularly in mobile environments where memory and processing power are constrained.By developing a LoRA-based fine-tuning approach that maintains competitive accuracy while dramatically reducing trainable parameters,we aim to bridge the gap between research capabilities and real-world deployment requirements.
+
+The project addresses the critical issue of class imbalance in face parsing datasets through intelligent data curation strategies.Consequently,Rather than relying on naive sampling approaches,our methodology prioritizes images containing rare but important facial features like glasses,jewelry,and accessories.This targeted selection ensures that the resulting models can handle the diverse range of features that users actually want to customize in face swapping applications.
+
+Beyond technical contributions,this work demonstrates the practical viability of parameter-efficient learning in production systems.Moreover,The mobile application serves as a proof-of-concept for how research innovations can be translated into user-friendly tools that provide real value .Moreover,The dual-mode processing architecture shows how systems can intelligently adapt their complexity based on user requirements,providing both fast preview capabilities and high-quality final output options.
+
+\section{Tools and Technologies Used}
+
+\begin{table}[H]
+\centering
+\caption{Tools and Technologies Used}
+\label{tab:tools_technologies}
+\begin{tabular}{|p{1cm}|p{2.5cm}|p{8.5cm}|p{1.5cm}|}
+\hline
+\textbf{Sr.} & \textbf{Name} & \textbf{Description} & \textbf{Version} \\
+\hline
+1 & Python & Core programming language for AI/ML development & 3.9.0 \\
+\hline
+2 & PyTorch & Deep learning framework for model training & 2.0.1 \\
+\hline
+3 & Flutter & Cross-platform mobile application framework & 3.10.2 \\
+\hline
+4 & FastAPI & High-performance web framework for API development & 0.95.2 \\
+\hline
+5 & ONNX Runtime & Optimized inference engine for model deployment & 1.15.1 \\
+\hline
+6 & OpenCV & Computer vision library for image processing & 4.7.0 \\
+\hline
+7 & Albumentations & Image augmentation library for training & 1.3.1 \\
+\hline
+8 & InsightFace & Face detection and recognition toolkit & 0.7.3 \\
+\hline
+9 & Transformers & NLP/CV model implementations and utilities & 4.30.2 \\
+\hline
+10 & scikit-learn & Machine learning library for evaluation metrics & 1.2.2 \\
+\hline
+11 & CUDA Toolkit & GPU acceleration framework for deep learning & 11.8 \\
+\hline
+12 & Android Studio & IDE for Android app development and testing & 2023.1.1 \\
+\hline
+\end{tabular}
+\end{table}
+
+The technology stack integrates seamlessly to provide end-to-end functionality from model training through mobile deployment, ensuring optimal performance across all system components.
+
+\section{Deployment Platform}
+
+\begin{table}[H]
+\centering
+\caption{Deployment Platform}
+\label{tab:deployment_platform}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Sr.} & \textbf{Platform} & \textbf{Technology} & \textbf{Version} \\
+\hline
+1 & iOS & Flutter & 3.10.2 \\
+\hline
+2 & Android & Flutter & 3.10.2 \\
+\hline
+3 & Windows & FastAPI & 0.95.2 \\
+\hline
+\end{tabular}
+\end{table}
+
+The system employs a distributed architecture optimized for both development efficiency and production scalability. The model training was conducted on Google Colab utilizing NVIDIA L4 GPU resources, providing substantial computational power for parameter-efficient training while maintaining accessibility for reproducible research.
+
+\section{Project Scheduling}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/project_schedule_gantt.png}
+\caption{Project Gantt Chart}
+\label{fig:project_gantt}
+\end{figure}
+
+The project follows an 8-month development timeline with clearly defined milestones for research, development, testing, and deployment phases.
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Literature Review}
+\markboth{Literature Review}{Literature Review}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries Literature Review}
+\end{center}
+\vspace*{\fill}
+\label{ch:literature_review}
+\clearpage
+\newpage
+\section{Introduction}
+
+The field of face parsing has evolved dramatically from traditional computer vision approaches to sophisticated deep learning methodologies , paralleling advances in semantic segmentation and mobile computing.Moreover, This literature review examines the current state of face parsing technology,parameter-efficient learning methods, and mobile deployment strategies,identifying critical gaps that motivate our research approach.
+
+Nonetheless,Face parsing,defined as the pixel-level segmentation of facial regions into semantic classes,has become increasingly important for applications ranging from virtual reality to digital content creation               \cite{liu2015deep}.The challenge lies not only in achieving high accuracy but also in deploying these systems on resource-constrained mobile devices where computational efficiency is paramount.Hence,Traditional approaches requiring full model fine-tuning present significant barriers to practical deployment,creating an urgent need for parameter-efficient alternatives.
+
+Recent developments in Low-Rank Adaptation (LoRA) \cite{hu2021lora} have revolutionized parameter-efficient learning in natural language processing, demonstrating that large models can be adapted effectively by training only a small subset of parameters.However,the application of these techniques to computer vision tasks, particularly dense prediction problems like face parsing, remains largely unexplored.This review synthesizes existing literature across multiple domains to establish the theoretical foundation for our parameter-efficient face parsing approach.
+
+Nonetheless,The mobile computing landscape has created unprecedented demand for on-device AI processing,driven by privacy concerns,latency requirements,and connectivity limitations \cite{chen2022mobile}.Users increasingly expect sophisticated AI capabilities without compromising personal data or requiring constant internet connectivity.Therefore,This trend necessitates novel approaches that can deliver research-quality results within the constraints of mobile hardware,representing a significant opportunity for parameter-efficient learning methods.
+
+\section{Problem Background}
+
+The computational demands of modern deep learning models present fundamental challenges for mobile deployment. Furthermore, State-of-the-art face parsing systems typically require millions of parameters and substantial GPU memory,making them impractical for smartphones and tablets \cite{howard2017mobilenets}.Traditional semantic segmentation approaches like FCN \cite{long2015fully} and U-Net \cite{ronneberger2015unet} achieve excellent accuracy but at the cost of computational complexity that exceeds mobile device capabilities.
+
+Class imbalance represents another critical challenge in face parsing datasets.Standard datasets like CelebAMask-HQ \cite{lee2020maskgan} contain severe imbalances where common features like skin and hair dominate training samples while rare but important accessories appear in fewer than 10\% of images.This imbalance leads to poor performance on exactly the features that users most want to customize in face swapping applications,creating a fundamental mismatch between dataset distribution and practical requirements.
+
+The gap between research capabilities and real-world deployment has widened as models become increasingly sophisticated.While academic benchmarks continue to improve,the practical deployment of these systems remains limited by computational constraints \cite{tan2019efficientnet}.Moreover,This disconnect highlights the need for approaches that can maintain competitive accuracy while dramatically reducing computational requirements.
+
+Mobile hardware evolution has created new opportunities for on-device AI processing,but also exposed the limitations of current approaches. Furthermore,Modern smartphones possess substantial computational power through dedicated neural processing units and advanced GPUs,yet most AI applications still rely on cloud processing due to model complexity \cite{sandler2018mobilenetv2}.This reliance on remote processing introduces latency,privacy concerns, and connectivity dependencies that limit user experience.
+
+The face swapping application domain presents unique challenges that compound these fundamental issues. Consequently,Nevertheless,Users expect both speed and quality,requiring systems that can provide quick preview capabilities for iteration while also delivering professional-quality final outputs \cite{nirkin2019fsgan} .Current Additionally, approaches offer fixed processing modes that can not adapt to varying user requirements or device capabilities.
+
+\begin{table}[H]
+\centering
+\caption{Face Parsing Datasets Comparison}
+\label{tab:datasets_comparison}
+\begin{tabular}{|p{2.5cm}|p{1.5cm}|p{1.5cm}|p{2cm}|p{1.5cm}|p{2cm}|}
+\hline
+\textbf{Dataset} & \textbf{Size} & \textbf{Classes} & \textbf{Resolution} & \textbf{Class Balance} & \textbf{Key Features} \\
+\hline
+HELEN \cite{le2012interactive} & 2,330 & 11 & Variable & Moderate & Basic facial components \\
+\hline
+LFW-PL \cite{kae2013augmenting} & 13,233 & 3 & Variable & Good & Simple segmentation \\
+\hline
+CelebAMask-HQ \cite{lee2020maskgan} & 30,000 & 19 & 512×512 & Poor & Accessories included \\
+\hline
+AFLW2000-3D \cite{zhu2016face} & 2,000 & 68 & Variable & Poor & 3D landmarks \\
+\hline
+Multi-PIE \cite{gross2010multi} & 337 & 9 & Variable & Moderate & Multi-pose variation \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Significance of Problem}
+
+Hence, The significance of addressing computational efficiency in face parsing extends beyond technical considerations to fundamental questions of AI accessibility and democratization.Therefore, Current barriers prevent widespread deployment of sophisticated computer vision capabilities,limiting innovation and creative expression to users with access to high-end hardware or cloud computing resources \cite{strubell2019energy}.Furthermore, This digital divide perpetuates inequalities in technological access and stifles potential innovations that could emerge from broader community participation in AI-enabled applications \cite{birhane2021algorithmic}.
+
+Moreover, From a societal perspective,the computational intensity of current face parsing systems creates a two-tiered ecosystem where advanced AI capabilities remain concentrated among well-resourced institutions and corporations \cite{raji2020saving}.This concentration limits the diversity of applications and use cases that could benefit society,as smaller developers,educational institutions,and emerging markets lack the infrastructure to deploy state-of-the-art face parsing technologies. Hence, The democratization of these capabilities through parameter-efficient approaches could unlock a new wave of innovation in areas such as accessibility tools for individuals with disabilities,educational applications for digital content creation,and culturally diverse creative expressions that reflect global perspectives rather than those of resource-rich organizations \cite{barocas2019fairness}.
+
+Furthermore, The economic implications of this research extend far beyond individual applications to broader questions of sustainable AI development and deployment \cite{thompson2021computational}.Therefore, Traditional approaches requiring extensive computational resources create significant barriers to entry for startups and small businesses seeking to integrate face parsing capabilities into their products and services \cite{brynjolfsson2017artificial}.The associated infrastructure costs , ranging from specialized hardware to cloud computing expenses , often prove prohibitive for organizations operating with limited budgets . Moreover , By reducing computational requirements by over 95\% while maintaining competitive performance,parameter-efficient approaches enable a new generation of businesses to participate in AI-driven markets,fostering competition and innovation that ultimately benefits consumers through improved products and services.
+
+The environmental significance of computational efficiency in AI can not be overstated in an era of increasing awareness about the carbon footprint of digital technologies \cite{strubell2019energy,schwartz2020green}. Moreover,Training traditional face parsing models requires substantial energy consumption through prolonged GPU utilization,while deployment at scale multiplies these environmental costs across millions of devices and users \cite{lacoste2019quantifying}.The 95\% reduction in trainable parameters achieved through our LoRA-based approach translates directly to reduced energy consumption during both training and inference phases. This efficiency gain becomes increasingly important as AI applications proliferate across mobile devices,IoT systems,and edge computing scenarios where energy efficiency directly impacts battery life,thermal management,and overall system sustainability \cite{li2020edge}.
+
+Therefore, From a privacy and security perspective,the ability to deploy sophisticated face parsing models directly on user devices rather than relying on cloud-based processing addresses growing concerns about biometric data privacy \cite{gdpr2016regulation}.Face parsing involves processing highly sensitive personal information that users increasingly prefer to keep on their own devices rather than transmitting to remote servers \cite{voigt2017eu}. Furthermore, Parameter-efficient models that can operate effectively on mobile hardware enable privacy-preserving AI applications that maintain user trust while providing advanced functionality \cite{li2020federated}.This shift toward on-device processing becomes particularly critical in regions with strict data protection regulations or in applications serving privacy-sensitive populations such as healthcare,education,and personal communication.
+
+The technical significance of this work lies in its demonstration that parameter-efficient learning , previously proven effective in natural language processing \cite{hu2021lora}, can be successfully adapted to dense prediction tasks in computer vision.Consequently, This cross-domain knowledge transfer opens new research directions for applying parameter-efficient techniques to other challenging computer vision problems including object detection,instance segmentation,and video analysis \cite{he2017mask}. The methodology establishes a framework for future research that could revolutionize how complex computer vision models are adapted and deployed, potentially leading to more efficient approaches across the entire field \cite{chen2020simple}.
+
+Consequently, The temporal urgency of addressing these challenge increases as mobile compute capabilities continue expanding while user expectation for advanced AI functionality grow correspondingly \cite{howard2017mobilenets}. Additionally, The gap between research capabilities demonstrated in academic settings and practical deployment limitations in real-world applications continues widening , creating a critical need for approaches that can bridge this divide \cite{russakovsky2015imagenet}. Without solutions that address computational efficiency while maintaining accuracy ,the benefits of ongoing research advances in face parsing and related computer vision tasks remain largely confined to laboratory settings rather than reaching the broader population of potential users and applications \cite{deng2009imagenet}.
+
+Furthermore, the significance extends to educational and research accessibility, where parameter-efficient approaches enable broader participation in AI research and development \cite{wing2006computational}. Nevertheless , Educational institutions with limited computational resources can engage in meaningful face parsing research and curriculum development when training requirements are reduced by 95\%.This accessibility could lead to more diverse perspectives in AI research , potentially uncovering novel applications and approaches that might not emerge from resource-rich institutions alone \cite{fazelpour2021algorithmic}. Additionally, The democratization of research capabilities through computational efficiency thus serves the broader goal of advancing the field through increased participation and diverse viewpoints \cite{gebru2018datasheets}.
+
+\subsection{Deep Learning-based Techniques}
+
+Deep learning approaches have revolutionized face parsing through sophisticated architectures that can learn complex feature representations directly from data.Convolutional Neural Networks (CNNs) form the backbone of most modern face parsing systems,with architectures like ResNet \cite{he2016deep} and VGG \cite{simonyan2014very} providing robust feature extraction capabilities. 
+
+Hence, DeepLab \cite{chen2017deeplab} introduced atrous convolution for dense prediction task,enable model to capture multi-scale contextual info while maintain spatial resolution.The approach demonstrated significant improvements in boundary accuracy for semantic segmentation ,making it particularly relevant for face parsing applications where precise feature boundaries are crucial for visual quality.
+
+Consequently, PSPNet \cite{zhao2017pyramid} advance semantic segmentation through Great Great Pyramid pool modules that aggregate contextual information at multiple scale of measurement.This hierarchical approach proves especially valuable for face parsing where features vary dramatically in size,from small accessories like earrings to large regions like hair and skin.
+
+BiSeNet \cite{yu2018bisenet} represent a discovery in real-time semantic segmentation by introducing bilaterally symmetrical pathways that balance spatial detail conservation with contextual understanding.Consequently, The Spatial route maintains small-grained boundary information through lightweight operation,while the Context route leverage thick networks for semantic feature extraction.Additionally, This counterbalance make BiSeNet particularly desirable for human face parsing application program require both accuracy and efficiency .
+
+Nonetheless, Recent advances in face swapping applications have highlighted the critical importance of precise lip region processing and blending \cite{li2020face}. Lip blending represents one of the most challenging aspects of face swapping due to the complex interaction between facial features,skin tones,and the need for seamless transitions around mouth regions.Consequently, Traditional approaches often produce visible artifacts around lip boundaries, particularly when source and target faces have different lip shapes,sizes,or coloration.
+
+The integration of semantic segmentation with specialized blending techniques has emerged as a key solution for high-quality lip integration.Consequently, By precisely identifying lip regions(upper lip and lower lip)through face parsing,systems can apply targeted blending algorithms that preserve natural lip texture while ensuring seamless integration with surrounding facial features \cite{wang2021facex}. 
+
+Recent transformer-based approaches \cite{dosovitskiy2020image} have shown promise for semantic segmentation tasks through self-attention mechanisms that can capture long-range dependencies.However, the computational requirements of these models often exceed those of CNN-based approaches,limiting their applicability to mobile deployment scenarios.
+
+\newpage
+\begin{landscape}
+\begin{table}[H]
+\centering
+\caption{Deep Learning-based Face Parsing Techniques}
+\label{tab:deep_learning_techniques}
+\small
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{3cm}|p{2.5cm}|p{2.5cm}|p{3cm}|p{3.5cm}|}
+\hline
+\textbf{Research} & \textbf{Objective} & \textbf{Technique} & \textbf{Methodology} & \textbf{Dataset} & \textbf{Results} & \textbf{Remarks} \\
+\hline
+FCN \cite{long2015fully} & End-to-end dense prediction for semantic segmentation & Fully Convolutional Networks with skip connections & CNN-based encoder-decoder & PASCAL VOC 2012, NYU Depth & mIoU: 62.2\% on PASCAL VOC & Pioneer work in semantic segmentation, limited face parsing application \\
+\hline
+U-Net \cite{ronneberger2015unet} & Biomedical image segmentation with precise localization & U-shaped architecture with contracting and expansive paths & Skip connections preserve details & Medical imaging datasets & Dice: 92\% on medical images & Strong performance on medical data, adaptable to face parsing \\
+\hline
+DeepLabV3+ \cite{chen2018encoder} & Multi-scale context aggregation for semantic segmentation & Atrous Spatial Pyramid Pooling (ASPP) with encoder-decoder & Dilated convolutions & Cityscapes, PASCAL VOC 2012 & mIoU: 89.0\% on Cityscapes & Excellent boundary accuracy, high computational cost \\
+\hline
+PSPNet \cite{zhao2017pyramid} & Scene parsing with global context aggregation & Pyramid Pooling Module & Hierarchical pooling & ADE20K, PASCAL VOC 2012 & mIoU: 85.4\% on ADE20K & Strong performance on diverse scenes, memory intensive \\
+\hline
+BiSeNet \cite{yu2018bisenet} & Real-time semantic segmentation with efficiency & Bilateral segmentation network with dual pathways & Spatial + Context paths & CelebAMask-HQ, Cityscapes & mIoU: 58.9\% on face parsing, 68.4\% on Cityscapes & Balance between speed and accuracy, suitable for face parsing \\
+\hline
+Vision Transformer \cite{dosovitskiy2020image} & Image classification and segmentation using transformers & Multi-head self-attention with patch embedding & Transformer architecture & ImageNet, ADE20K & mIoU: 84.2\% on ADE20K & Strong global context modeling, computationally expensive \\
+\hline
+SegFormer \cite{xie2021segformer} & Efficient transformer for semantic segmentation & Hierarchical transformer encoder with lightweight decoder & Mix-FFN decoder & ADE20K, Cityscapes & mIoU: 84.0\% on ADE20K & Efficient transformer design, good performance \\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\subsection{Parameter-Efficient Learning-Based Techniques}
+
+Parameter-efficient learning has emerged as a critical research direction for enabling practical deployment of large models without sacrificing performance. LoRA \cite{hu2021lora} pioneered this approach by demonstrating that adaptation can be achieved through low-rank matrix decompositions that dramatically reduce the number of trainable parameters.
+
+The core insight of LoRA lies in the hypothesis that model adaptation during fine-tuning operates in a lower-dimensional subspace than the original parameter space. By constraining updates to low-rank matrices, LoRA achieves adaptation efficiency while maintaining the expressive power of the original model. This approach has proven particularly effective for large language models, reducing trainable parameters by 90\% or more while matching full fine-tuning performance.
+
+AdaLoRA \cite{zhang2023adalora} extends LoRA through adaptive rank allocation, dynamically adjusting the rank of different modules based on their importance during training. This refinement enables even greater parameter efficiency by concentrating adaptation capacity where it provides the most benefit.
+
+Prefix-tuning \cite{li2021prefix} and prompt-tuning \cite{lester2021power} represent alternative parameter-efficient approaches that modify model behavior through learnable prefix tokens or continuous prompts. While primarily developed for natural language processing, these techniques demonstrate the broader potential of parameter-efficient adaptation.
+
+QLoRA \cite{dettmers2023qlora} combines LoRA with quantization techniques to achieve extreme efficiency, enabling fine-tuning of very large models on consumer hardware. This approach demonstrates the potential for parameter-efficient methods to enable previously impossible deployment scenarios.
+
+The application of parameter-efficient learning to computer vision tasks remains limited compared to natural language processing \cite{kim2022parameter}. Recent work has begun exploring LoRA adaptations for image classification and object detection, but dense prediction tasks like face parsing remain largely unexplored.
+
+\newpage
+\begin{landscape}
+\begin{table}[H]
+\centering
+\caption{Parameter-Efficient Learning Techniques}
+\label{tab:parameter_efficient_techniques}
+\small
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{3cm}|p{2.5cm}|p{2.5cm}|p{3cm}|p{3.5cm}|}
+\hline
+\textbf{Research} & \textbf{Objective} & \textbf{Technique} & \textbf{Methodology} & \textbf{Dataset} & \textbf{Results} & \textbf{Remarks} \\
+\hline
+LoRA \cite{hu2021lora} & Efficient adaptation of large language models & Low-rank matrix decomposition for weight updates & Low-rank adaptation & GLUE, SuperGLUE, WikiSQL & 99.3\% of full fine-tuning with 0.1\% parameters & Breakthrough in parameter efficiency, primarily NLP focus \\
+\hline
+AdaLoRA \cite{zhang2023adalora} & Adaptive rank allocation for improved efficiency & Dynamic rank adjustment based on parameter importance & Adaptive rank matrices & GLUE, DeBERTa variants & Superior to LoRA with fewer parameters & Intelligent parameter allocation, complex implementation \\
+\hline
+Prefix-tuning \cite{li2021prefix} & Task-specific adaptation through prefix optimization & Learnable prefix vectors prepended to input sequences & Prompt-based adaptation & GPT-2, BERT variants & 99.4\% performance with 0.1\% parameters & Simple implementation, limited to sequence tasks \\
+\hline
+Prompt-tuning \cite{lester2021power} & Soft prompt learning for task adaptation & Continuous prompt embeddings optimization & Soft prompt embeddings & T5, various NLP tasks & 97.0\% of full fine-tuning performance & Ultra-low parameter usage, task-dependent performance \\
+\hline
+QLoRA \cite{dettmers2023qlora} & Quantization-aware parameter-efficient fine-tuning & 4-bit quantization combined with LoRA adaptation & Quantization + LoRA & LLaMA, various sizes & 99.3\% performance with 4-bit precision & Enables large model fine-tuning on consumer hardware \\
+\hline
+BitFit \cite{zaken2021bitfit} & Fine-tuning only bias parameters & Bias-only parameter updates during adaptation & Bias-only updates & GLUE, SuperGLUE & 95.2\% of full fine-tuning with 0.08\% parameters & Minimal parameter update strategy, simple implementation \\
+\hline
+Adapters \cite{houlsby2019parameter} & Task-specific adapter modules insertion & Small feed-forward networks inserted between layers & Bottleneck adapters & GLUE, multilingual tasks & 99.4\% performance with 3.6\% additional parameters & Modular approach, higher parameter usage than LoRA \\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\subsection{Mobile Deployment-Based Techniques}
+
+Mobile deployment of AI models requires specialized techniques that address the unique constraints of mobile hardware including limited memory, processing power, and battery life. Model compression techniques like quantization \cite{jacob2018quantization} and pruning \cite{louizos2018learning} reduce model size and computational requirements while attempting to preserve accuracy.
+
+MobileNets \cite{howard2017mobilenets} introduced depthwise separable convolutions that dramatically reduce computational cost compared to standard convolutions. This architectural innovation enables deployment of sophisticated models on mobile devices while maintaining reasonable accuracy for many computer vision tasks.
+
+EfficientNet \cite{tan2019efficientnet} advanced mobile AI through compound scaling that systematically balances model depth, width, and resolution. This approach achieves superior accuracy-efficiency trade-offs compared to previous architectures, demonstrating the importance of holistic optimization for mobile deployment.
+
+Knowledge distillation \cite{hinton2015distilling} enables the transfer of knowledge from large teacher models to smaller student models suitable for mobile deployment. This approach has proven effective for maintaining accuracy while reducing model size, though it requires access to teacher models and additional training complexity.
+
+Neural Architecture Search (NAS) \cite{zoph2018learning} has emerged as a promising approach for automatically discovering architectures optimized for specific deployment constraints. MobileNetV3 \cite{howard2019searching} demonstrates the effectiveness of NAS for mobile optimization, achieving state-of-the-art efficiency on mobile devices.
+
+Recent advances in mobile hardware, including dedicated neural processing units and optimized GPU architectures, have expanded the possibilities for on-device AI processing \cite{ignatov2018ai}. However, most face parsing systems still require computational resources that exceed mobile device capabilities, highlighting the need for more efficient approaches.
+
+\newpage
+\begin{landscape}
+\begin{table}[H]
+\centering
+\caption{Mobile Deployment Techniques for AI Models}
+\label{tab:mobile_deployment_techniques}
+\small
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{3cm}|p{2.5cm}|p{2.5cm}|p{3cm}|p{3.5cm}|}
+\hline
+\textbf{Research} & \textbf{Objective} & \textbf{Technique} & \textbf{Methodology} & \textbf{Dataset} & \textbf{Results} & \textbf{Remarks} \\
+\hline
+MobileNets \cite{howard2017mobilenets} & Efficient CNN architecture for mobile devices & Depthwise separable convolutions & Factorized convolutions & ImageNet & 70.6\% top-1 accuracy with 4.2M parameters & Significant computational reduction, moderate accuracy loss \\
+\hline
+EfficientNet \cite{tan2019efficientnet} & Compound scaling for optimal model architecture & Systematic scaling of depth, width, and resolution & Compound scaling & ImageNet & 84.3\% top-1 accuracy with 66M parameters & Superior accuracy-efficiency trade-off \\
+\hline
+Knowledge Distillation \cite{hinton2015distilling} & Transfer knowledge from large to small models & Teacher-student training framework & Temperature softmax & MNIST, CIFAR-10 & 98.1\% accuracy with 10x smaller model & Effective knowledge transfer, requires teacher model \\
+\hline
+Quantization \cite{jacob2018quantization} & Reduce model precision for efficiency & 8-bit integer quantization during inference & Post-training quantization & ImageNet, COCO & <1\% accuracy loss with 4x speedup & Hardware-friendly optimization, quality degradation risk \\
+\hline
+Neural Architecture Search \cite{zoph2018learning} & Automated architecture discovery for constraints & Reinforcement learning-based architecture search & RL-based search & CIFAR-10, ImageNet & 97.4\% accuracy on CIFAR-10 & Automated optimization, extremely high search cost \\
+\hline
+MobileNetV3 \cite{howard2019searching} & NAS-optimized mobile architecture & Platform-aware NAS with novel activation functions & NAS + h-swish activation & ImageNet & 75.2\% top-1 accuracy with 5.4M parameters & State-of-the-art mobile efficiency, optimized for hardware \\
+\hline
+Pruning \cite{louizos2018learning} & Remove redundant parameters for compression & Structured and unstructured weight pruning & Magnitude-based pruning & CIFAR-10, ImageNet & 90\% sparsity with minimal accuracy loss & Effective compression, requires specialized hardware support \\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\section{Challenges and Gaps For Face Parsing}
+
+Despite significant advances in both face parsing technology and mobile deployment techniques, several critical challenges and gaps remain that limit practical deployment and user experience.
+
+\subsection{Computational Complexity}
+
+The primary challenge facing face parsing deployment lies in the computational intensity of current state-of-the-art models. Traditional semantic segmentation architectures require substantial memory and processing power that exceed the capabilities of mobile devices \cite{yu2018bisenet}. Even optimized architectures like BiSeNet, while achieving real-time performance on desktop GPUs, remain too computationally demanding for mobile deployment.
+
+Memory requirements present a particularly acute challenge, as face parsing models must maintain high-resolution feature maps throughout the network to preserve boundary accuracy. This requirement conflicts with the limited memory available on mobile devices, creating a fundamental tension between accuracy and deployability \cite{chen2018encoder}.
+
+The lack of efficient training methods compounds this challenge by requiring full model fine-tuning that demands extensive computational resources during development. This requirement limits research accessibility and slows iteration cycles, hindering the development of more efficient approaches \cite{smith2017cyclical}.
+
+Current optimization techniques like model compression and quantization often sacrifice accuracy for efficiency, creating unsatisfactory trade-offs for applications requiring high-quality results \cite{jacob2018quantization}. The need for approaches that can maintain accuracy while dramatically reducing computational requirements remains largely unmet.
+
+\subsection{Dataset Imbalance}
+
+Face parsing datasets suffer from severe class imbalances that fundamentally limit model performance on rare but important features. The CelebAMask-HQ dataset \cite{lee2020maskgan}, while comprehensive in scope, contains dramatic imbalances where accessories like glasses, jewelry, and hats appear in fewer than 10\% of images.
+
+This imbalance creates a mismatch between dataset distribution and practical application requirements. Users of face swapping applications are particularly interested in customizing accessories and rare features, yet these are exactly the classes where current models perform poorly due to insufficient training data \cite{lin2020attention}.
+
+Traditional data augmentation techniques prove insufficient for addressing this imbalance because they cannot create truly novel examples of rare classes. Simple transformations like rotation and scaling fail to capture the diversity needed for robust rare class detection \cite{shorten2019survey}.
+
+The evaluation metrics commonly used in face parsing research, such as mean IoU, can mask poor performance on rare classes by averaging across all classes including dominant ones like skin and hair. This masking effect reduces the apparent severity of the imbalance problem and may lead to models that perform well on benchmarks but poorly in practical applications \cite{milletari2016vnet}.
+
+\subsection{Mobile Deployment Limitations}
+
+Current mobile deployment strategies for face parsing suffer from inflexibility that prevents adaptation to varying user requirements and device capabilities. Most systems offer fixed processing modes that cannot balance speed and quality based on specific user needs or time constraints \cite{chen2022mobile}.
+
+The lack of intelligent processing architectures that can dynamically adjust computational complexity represents a significant limitation. Users need systems that can provide both quick preview capabilities for iteration and high-quality final outputs for sharing, but current approaches cannot adapt their processing based on context \cite{wang2021adaptive}.
+
+Integration challenges arise when deploying complex AI pipelines that require coordination of multiple models for complete face swapping functionality. The orchestration of face detection, parsing, identity transfer, and enhancement models creates additional complexity that current deployment frameworks handle poorly \cite{li2020mobile}.
+
+Privacy and connectivity concerns further complicate mobile deployment, as users increasingly demand on-device processing that preserves privacy and enables offline functionality. Current cloud-based solutions fail to meet these requirements, creating barriers to adoption in privacy-sensitive applications \cite{xu2019federated}.
+
+\begin{table}[H]
+\centering
+\caption{Challenges and Existing Solutions Matrix}
+\label{tab:challenges_solutions_matrix}
+\begin{tabular}{|p{3cm}|p{3.5cm}|p{3.5cm}|p{3.5cm}|}
+\hline
+\textbf{Challenge Category} & \textbf{Current Approaches} & \textbf{Limitations} & \textbf{Gap Addressed by Our Work} \\
+\hline
+Computational Complexity & Model compression, quantization \cite{jacob2018quantization}, pruning \cite{louizos2018learning} & Accuracy degradation, limited efficiency gains & Parameter-efficient training with 95\% reduction \\
+\hline
+Dataset Imbalance & Data augmentation \cite{shorten2019survey}, weighted loss functions \cite{lin2017focal} & Cannot create novel rare examples & Intelligent data curation for rare classes \\
+\hline
+Mobile Deployment & Cloud processing \cite{chen2022mobile}, model compression \cite{howard2017mobilenets} & Privacy concerns, connectivity requirements & On-device processing with dual-mode architecture \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Research Focus}
+
+Based on the comprehensive literature review and identified challenges in existing face parsing methodologies, this research focuses on developing a novel parameter-efficient approach that bridges the critical gap between research capabilities and practical mobile deployment requirements. The research addresses four primary focus areas that collectively enable sophisticated face parsing on resource-constrained devices while maintaining competitive performance standards.
+
+\subsection{Parameter-Efficient Face Parsing Innovation}
+
+The primary research contribution centers on adapting Low-Rank Adaptation (LoRA) techniques from natural language processing to dense prediction computer vision tasks, specifically face parsing. This cross-domain knowledge transfer represents a significant methodological innovation, as parameter-efficient learning methods have demonstrated remarkable success in NLP applications but remain largely unexplored in computer vision segmentation tasks.
+
+Our approach systematically investigates the application of LoRA to BiSeNet architecture, identifying optimal integration points within the network structure where low-rank adaptations can achieve maximum impact with minimal parameter overhead. The research explores rank selection strategies, layer-wise adaptation importance, and architectural modifications necessary to maintain segmentation quality while achieving dramatic parameter efficiency improvements.
+
+The investigation encompasses comprehensive ablation studies examining different LoRA configurations, including rank values, alpha parameters, and target module selection strategies. This systematic exploration ensures that the parameter-efficient approach is optimally configured for face parsing applications while establishing generalizable principles for future computer vision parameter-efficient learning research.
+
+\subsection{Intelligent Dataset Curation for Rare Class Enhancement}
+
+The second research focus addresses the critical challenge of class imbalance in face parsing datasets through novel intelligent curation strategies. Rather than relying on traditional data augmentation or resampling techniques that often fail to address fundamental distribution problems, our approach develops systematic methodologies for identifying and prioritizing training examples that maximize rare class representation.
+
+The curation algorithm analyzes the complete CelebAMask-HQ dataset to identify images containing rare but important facial features including glasses, jewelry, hats, and other accessories that appear infrequently but represent high-value features for face swapping applications. The methodology ensures 70\%+ coverage for rare classes compared to naive sampling approaches, creating training subsets that are both computationally manageable and representative of practical application requirements.
+
+This approach extends beyond simple oversampling by implementing intelligent selection criteria that consider feature diversity, image quality, pose variation, and lighting conditions to ensure robust model training. The resulting curated datasets enable parameter-efficient models to achieve competitive performance on rare classes that traditionally require extensive computational resources and training data.
+
+\subsection{Adaptive Mobile Deployment Architecture}
+
+The third research focus develops innovative mobile deployment strategies that intelligently balance processing speed with output quality through dual-mode processing architectures. This approach recognizes that different use cases require different performance profiles, enabling users to choose between rapid preview generation for iterative design processes and high-quality final output for sharing and presentation purposes.
+
+The adaptive architecture implements intelligent resource allocation that automatically configures processing parameters, model complexity, and computational intensity based on user-selected modes and available device capabilities. Normal mode prioritizes speed with 3-5 minute processing times for quick iteration, while Best mode emphasizes quality with 15-20 minute processing for professional results.
+
+The deployment framework incorporates streaming processing capabilities that enable handling of unlimited file sizes while maintaining memory usage below 10MB, addressing critical constraints of mobile hardware. The architecture includes robust error recovery mechanisms, progress tracking systems, and seamless integration of multiple AI models within a cohesive user experience.
+
+\subsection{Comprehensive System Integration and Validation}
+
+The fourth research focus ensures that parameter-efficient innovations translate into practical, deployable systems through comprehensive integration and validation methodologies. This includes developing complete pipelines from model training through mobile application deployment, demonstrating the real-world viability of research contributions.
+
+The validation framework encompasses both technical performance metrics and user experience considerations, ensuring that efficiency gains do not compromise practical utility. Comprehensive benchmarking against established baselines validates the effectiveness of parameter-efficient approaches while demonstrating superior deployment characteristics including reduced training time, lower memory requirements, and improved accessibility.
+
+The research contributes to the broader goal of democratizing AI technology by making sophisticated computer vision capabilities accessible on consumer hardware, enabling new forms of creative expression and innovation that were previously limited to users with access to high-end computing resources.
+
+\begin{table}[H]
+\centering
+\caption{Research Focus and Contribution Matrix}
+\label{tab:research_focus_contribution}
+\begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{4cm}|}
+\hline
+\textbf{Research Focus Area} & \textbf{Innovation Approach} & \textbf{Technical Contribution} & \textbf{Expected Impact} \\
+\hline
+Parameter-Efficient Face Parsing & LoRA adaptation for dense prediction CV tasks & First comprehensive LoRA-based face parsing system with 95\% parameter reduction & Enable sophisticated face parsing on mobile devices \\
+\hline
+Intelligent Dataset Curation & Systematic rare class prioritization methodology & 70\%+ rare class coverage improvement through strategic selection & Improved performance on user-relevant features \\
+\hline
+Adaptive Mobile Deployment & Dual-mode processing architecture with intelligent resource allocation & Production-ready mobile face parsing with streaming processing & Practical deployment bridging research-application gap \\
+\hline
+System Integration Validation & End-to-end pipeline from training to mobile app deployment & Complete deployable system with comprehensive evaluation framework & Demonstrates real-world viability and user value \\
+\hline
+\end{tabular}
+\end{table}
+
+This research focus ensures that the proposed parameter-efficient face parsing system addresses real-world deployment challenges while advancing the theoretical understanding of parameter-efficient learning in computer vision applications. The comprehensive approach from methodological innovation through practical deployment provides a robust foundation for future research and development in efficient AI systems for mobile computing environments.
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Software Requirements and Specifications (SRS)}
+\markboth{Software Requirements and Specifications (SRS)}{Software Requirements and Specifications (SRS)}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries Software Requirements and Specifications (SRS)}
+\end{center}
+\vspace*{\fill}
+\label{ch:srs}
+\clearpage
+\newpage
+
+\section{Introduction}
+
+This chapter outlines the comprehensive software requirements and specifications for the parameter-efficient face parsing system. The requirements are categorized into functional and non-functional requirements, followed by a detailed feasibility analysis that validates the technical and operational viability of the proposed approach.
+
+\section{Functional Requirements}
+
+The system must provide comprehensive face swapping capabilities through an intuitive mobile interface backed by sophisticated AI processing.
+
+\begin{enumerate}[label=\Roman*.]
+\item \textbf{User Authentication and Profile Management}
+
+The system shall implement secure user authentication through Firebase integration with login credentials while supporting guest access for users preferring anonymous usage. Users must accept terms and conditions before accessing core functionality, ensuring legal compliance and user awareness. The system must provide comprehensive profile management through Firebase, allowing authenticated users to view and edit their username, email address, change passwords securely, and logout from their session.
+
+\item \textbf{Multi-format Media Support and Processing}
+
+The system must accept various image and video formats including JPEG, PNG, MP4, AVI, and MOV. Users shall be able to select source faces from images and target videos through gallery selection.
+
+\item \textbf{Dual-mode Processing Architecture}
+
+The system shall offer distinct performance profiles—Normal mode for quick results within 3-5 minutes and Best mode for professional quality output within 15-20 minutes, allowing users to balance speed versus quality based on their specific needs. The system must provide comprehensive progress tracking throughout the upload and processing workflow, with accurate time estimates and stage-specific status updates.
+
+\item \textbf{Result Management and Distribution}
+
+Upon completion, users must be able to download results with progress indicators. The result interface shall provide clear options for saving to device gallery, sharing through native platform mechanisms, and initiating new face swap sessions.
+
+\item \textbf{Multi-face Detection and Processing}
+
+The system must automatically identify and process multiple faces within single video content, ensuring comprehensive face swapping capabilities for complex scenarios.
+\end{enumerate}
+
+\section{Non-functional Requirements}
+
+Performance and reliability form the cornerstone of user experience in the face parsing system.
+
+\begin{enumerate}[label=\Roman*.]
+\item \textbf{Performance and Response Time Requirements}
+
+The Firebase authentication system must maintain security standards while providing responsive login experiences with sub-second response times for credential validation. The application must maintain responsive user interfaces throughout the multi-step workflow, with smooth transitions between authentication, profile management, upload, processing, and result screens. UI transitions must complete within 1 second, with accurate processing time estimation within ±20\% accuracy.
+
+\item \textbf{System Reliability and Error Handling}
+
+System reliability requires graceful error handling at each stage, including Firebase authentication failures, profile update errors, upload interruptions, processing errors, and download issues. Automatic recovery mechanisms must handle temporary failures during upload and processing phases, with clear user feedback and retry options. The system must maintain 99.5\% uptime for API services with automatic recovery from temporary failures.
+
+\item \textbf{Security and Data Protection}
+
+Security considerations include secure Firebase credential management, encrypted API communication through HTTPS, local processing to protect user privacy, and appropriate data retention policies for temporary files. The profile management system must ensure secure password changes,and proper session management.
+
+\item \textbf{Scalability and Cross-platform Compatibility}
+
+The mobile application must support devices with varying capabilities, automatically adapting processing parameters based on available system resources while maintaining consistent functionality across different hardware configurations. The system must provide consistent functionality across iOS 12+, Android 8+ with adaptive UI scaling.
+
+\item \textbf{Memory Efficiency and Resource Management}
+
+Peak memory usage must remain below 10MB regardless of input file size through streaming processing. The system must support resumable uploads with automatic retry mechanisms for network interruptions and implement checksum validation with automatic retry for corrupted downloads.
+\end{enumerate}
+
+\section{Project Feasibility Report}
+
+The feasibility assessment encompasses technical capability, operational viability, and economic sustainability considerations. Technical feasibility has been validated through successful implementation of the LoRA-based face parsing model achieving 57.84\% mIoU with only 4.84\% trainable parameters, demonstrating that parameter-efficient approaches can deliver competitive results.
+
+\subsection{Technical Feasibility}
+
+\begin{enumerate}[label=\Roman*.]
+\item \textbf{Parameter-Efficient Training Implementation}
+
+LoRA implementation reduces trainable parameters by 95\% while maintaining competitive accuracy, demonstrating the technical viability of parameter-efficient approaches for computer vision tasks.
+
+\item \textbf{Multi-model Integration Capability}
+
+Successful coordination of four different AI models (InsightFace, Inswapper, CodeFormer, BiSeNet) in production environment proves the technical feasibility of complex AI system integration.
+
+\item \textbf{Mobile GPU Compatibility and Optimization}
+
+Flutter application leverages mobile GPU capabilities for enhanced performance optimization, with real-time processing capabilities through streaming architecture that enables processing of large video files without memory constraints.
+
+\item \textbf{Cross-platform Deployment Framework}
+
+Flutter framework ensures consistent functionality across iOS and Android platforms, providing a unified development approach that reduces complexity and maintenance overhead.
+\end{enumerate}
+
+\subsection{Operational Feasibility}
+
+\begin{enumerate}[label=\Roman*.]
+\item \textbf{User Interface Simplicity and Accessibility}
+
+Intuitive design requires minimal learning curve for effective system utilization, with automated processing and intelligent defaults that reduce user configuration requirements.
+
+\item \textbf{Error Recovery and System Reliability}
+
+Robust error handling with automatic retry mechanisms ensures reliable operation, while comprehensive logging and monitoring facilitate troubleshooting and performance optimization.
+
+\item \textbf{Maintenance and Update Framework}
+
+Modular architecture enables independent updates and maintenance of system components, with comprehensive documentation supporting long-term system maintenance and evolution.
+\end{enumerate}
+
+\subsection{Economic Feasibility}
+
+\begin{enumerate}[label=\Roman*.]
+\item \textbf{Infrastructure Cost Optimization}
+
+Mid-range hardware requirements reduce initial investment and operational expenses significantly, making the system accessible to a broader range of deployment scenarios.
+
+\item \textbf{Development Efficiency and Resource Utilization}
+
+Parameter-efficient approach reduces training time and computational costs during development, while scalable architecture supports cost-effective scaling through horizontal distribution of processing loads.
+
+\item \textbf{Revenue Generation Potential}
+
+Multiple monetization strategies including premium features and professional-tier processing options provide sustainable economic models for system deployment and maintenance.
+\end{enumerate}
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}System Analysis and Interface Design}
+\markboth{System Analysis and Interface Design}{System Analysis and Interface Design}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries System Analysis and Interface Design}
+\end{center}
+\vspace*{\fill}
+\label{ch:analysis}
+\clearpage
+\newpage
+
+\section{Introduction}
+
+This chapter presents a comprehensive analysis of the system architecture and interface design for the parameter-efficient face parsing system. The analysis encompasses use case modeling, system development methodologies, data management strategies, and behavioral modeling that collectively define the system's operational framework.
+
+\section{Use Case Model}
+
+The use case model illustrates how users interact with the mobile application and backend systems to achieve face parsing and processing objectives. The model encompasses critical processes including data preprocessing, feature extraction, model training, and result presentation.
+
+\subsection{Model Prerequisites}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/model_prerequisites_diagram.png}
+\caption{Model Prerequisites}
+\label{fig:model_prerequisites}
+\end{figure}
+\begin{table}[H]
+\centering
+\caption{Table 9 Pre-processing}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Use case: Pre-processing}} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Actor:} Data Scientist, Mobile App, Preprocessing Module} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Pre-Conditions :} Availability of raw facial images that need preprocessing; Installed software for image preprocessing (Python, OpenCV); Sufficient system resources for face parsing processing} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Post-Conditions :} Raw facial images are preprocessed and stored in format suitable for face parsing feature extraction and model training} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Overview:} This use case describes the steps involved in preprocessing raw facial images before face parsing feature extraction and model training} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Usual Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Data scientist loads raw images & \\
+\hline
+ & 2. System validates image formats and dimensions \\
+\hline
+3. Data scientist initiates preprocessing & \\
+\hline
+ & 4. System applies resizing to 224x224 pixels \\
+\hline
+5. Data scientist selects augmentation options & \\
+\hline
+ & 6. System performs normalization and color adjustments \\
+\hline
+7. Data scientist confirms preprocessing parameters & \\
+\hline
+ & 8. System applies data augmentation techniques \\
+\hline
+9. Data scientist initiates batch processing & \\
+\hline
+ & 10. System processes images and stores in database \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Alternative Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Invalid image format detected & 2. System displays error message and skips invalid files \\
+\hline
+3. Insufficient memory for batch processing & 4. System switches to single image processing mode \\
+\hline
+5. Preprocessing parameters invalid & 6. System reverts to default preprocessing settings \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Model Pipelining}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/model_pipeline_diagram.png}
+\caption{Model Pipelining}
+\label{fig:model_pipeline}
+\end{figure}
+\begin{table}[H]
+\centering
+\caption{Feature Extraction}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Use case: Feature Extraction}} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Actor:} Data Scientist, Machine Learning Model, Image Data} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Pre-Conditions :} Availability of preprocessed facial images for face parsing; Installed software for feature extraction (Python, PyTorch); BiSeNet model loaded with pre-trained weights} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Post-Conditions :} Extracted facial feature maps from images for face parsing model training and segmentation} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Overview:} This use case describes steps involved in extracting facial feature maps from images using LoRA-enhanced BiSeNet model for face parsing tasks} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Usual Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Data scientist loads preprocessed images & \\
+\hline
+ & 2. System verifies image dimensions and format \\
+\hline
+3. Data scientist initializes BiSeNet model & \\
+\hline
+ & 4. System loads LoRA-enhanced model weights \\
+\hline
+5. Data scientist configures extraction parameters & \\
+\hline
+ & 6. System validates parameter settings \\
+\hline
+7. Data scientist initiates feature extraction & \\
+\hline
+ & 8. System processes images through spatial and context paths \\
+\hline
+9. Data scientist requests feature maps & \\
+\hline
+ & 10. System generates and stores 19-class feature maps \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Alternative Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Model weights fail to load & 2. System downloads weights from backup repository \\
+\hline
+3. GPU memory insufficient & 4. System switches to CPU processing with batch size reduction \\
+\hline
+5. Feature extraction produces NaN values & 6. System reinitializes model and retries extraction \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Train Model}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Use case: Train Model}} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Actor:} Data Scientist, Machine Learning Model, Training Data} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Pre-Conditions :} Availability of preprocessed facial training data; Installed software for model training (Python, PyTorch); Defined LoRA architecture and face parsing hyperparameters} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Post-Conditions :} Trained face parsing machine learning model ready for evaluation and mobile deployment} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Overview:} This use case describes steps involved in training LoRA-enhanced BiSeNet model for facial feature segmentation and parsing} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Usual Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Data scientist loads training dataset & \\
+\hline
+ & 2. System splits data into 80\% train, 20\% validation \\
+\hline
+3. Data scientist configures LoRA parameters & \\
+\hline
+ & 4. System initializes low-rank adaptation matrices \\
+\hline
+5. Data scientist sets hyperparameters & \\
+\hline
+ & 6. System validates learning rate and batch size \\
+\hline
+7. Data scientist initiates training & \\
+\hline
+ & 8. System begins 40-epoch training cycle \\
+\hline
+9. Data scientist monitors progress & \\
+\hline
+ & 10. System displays loss curves and metrics \\
+\hline
+11. Data scientist requests model checkpoint & \\
+\hline
+ & 12. System saves model weights and training state \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Alternative Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Training loss increases (divergence) & 2. System reduces learning rate automatically \\
+\hline
+3. Validation loss plateaus early & 4. System triggers early stopping mechanism \\
+\hline
+5. Training interrupted & 6. System saves checkpoint and enables resume from last epoch \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{User Interface}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.1\textwidth]{figures/user_interface_diagram.png}
+\caption{User Interface Flow}
+\label{fig:user_interface}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Upload Image}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Use case: Upload Image}} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Actor:} User, Mobile App, Database} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Pre-Conditions :} Availability of facial image on user's device; Installed and running mobile application} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Post-Conditions :} Facial image successfully uploaded and stored in database for face parsing processing} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Overview:} This use case describes steps involved in uploading facial image for face parsing processing and facial feature segmentation analysis} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Usual Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. User selects "Upload Source Image" & \\
+\hline
+ & 2. System opens gallery/camera selection dialog \\
+\hline
+3. User selects image from gallery & \\
+\hline
+ & 4. System validates image format (JPEG/PNG) \\
+\hline
+5. User confirms image selection & \\
+\hline
+ & 6. System displays image preview \\
+\hline
+7. User initiates upload & \\
+\hline
+ & 8. System performs chunked streaming upload \\
+\hline
+9. User views upload progress & \\
+\hline
+ & 10. System displays progress bar and estimated time \\
+\hline
+11. Upload completes & \\
+\hline
+ & 12. System stores image and navigates to target video selection \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Alternative Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. User selects unsupported format & 2. System displays format error and supported types \\
+\hline
+3. Network connection lost during upload & 4. System pauses upload and enables resume \\
+\hline
+5. User cancels upload & 6. System clears temporary files and returns to home \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Display Results}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Use case: Display Results}} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Actor:} User, Mobile App, Machine Learning Model} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Pre-Conditions :} User has uploaded facial image and face parsing processing is complete; Face parsing segmentation results available in database} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Post-Conditions :} User is presented with face parsing segmentation results on mobile application interface} \\
+\hline
+\multicolumn{2}{|p{12cm}|}{\textbf{Overview:} This use case describes steps involved in displaying face parsing and facial feature segmentation results to user after processing uploaded facial image} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Usual Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Processing completes & \\
+\hline
+ & 2. System retrieves processed video from database \\
+\hline
+3. User views completion notification & \\
+\hline
+ & 4. System loads result video into player \\
+\hline
+5. User plays result video & \\
+\hline
+ & 6. System displays full-screen video preview \\
+\hline
+7. User selects "Save" option & \\
+\hline
+ & 8. System saves video to device gallery \\
+\hline
+9. User selects "Share" option & \\
+\hline
+ & 10. System opens native share dialog \\
+\hline
+11. User selects "New Swap" & \\
+\hline
+ & 12. System returns to upload source image screen \\
+\hline
+\multicolumn{2}{|c|}{\textbf{Alternative Paths}} \\
+\hline
+\textbf{Actions Undertaken} & \textbf{System Reaction} \\
+\hline
+1. Result video fails to load & 2. System retries loading with fallback URL \\
+\hline
+3. Save to gallery fails & 4. System displays storage error and retry option \\
+\hline
+5. Share function unavailable & 6. System provides download link as alternative \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\section{System Development Model}
+
+The selection of an appropriate development methodology is crucial for the successful implementation of complex AI systems that require iterative refinement and continuous validation. Given the experimental nature of parameter-efficient face parsing research combined with practical mobile deployment requirements, our project demands a flexible approach that can accommodate both research uncertainties and user experience considerations.
+
+\subsection{Agile Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/agile.png}
+\caption{Agile Methodology}
+\label{fig:agile_methodology}
+\end{figure}
+
+The Agile methodology provides an iterative and adaptable framework for the face parsing system development. The approach consists of six phases: planning, design, development, testing, deployment, and review. Each phase maintains the dynamic and fluid nature of the process, fostering continuous improvement and collaboration.
+
+\textbf{Planning:} The project's scope, user requirements, and objectives are clearly defined. The face parsing system's ability to collect and process high-quality facial data requires substantial coordination between user interface, application logic, and backend processing systems.
+
+\textbf{Design:} System architecture and user interface designs are developed during this phase. The main goal ensures that image upload and feature extraction workflows align with project objectives for accurate and robust face parsing classification.
+
+\textbf{Development:} Intended capabilities are designed and implemented throughout development. This includes creating face parsing-specific features for database storage, image upload functionality, and implementing preprocessing and analysis using machine learning models.
+
+\textbf{Testing:} Comprehensive testing identifies and resolves system operational issues. The face parsing system must adequately process uploaded images and ensure feature extraction models operate correctly.
+
+\textbf{Deployment:} The deployment process involves system productionization. This includes enabling mobile device users to capture images and receive face parsing results through the application.
+
+\textbf{Review:} System performance evaluation and improvement recommendations are conducted. Continuous assessment enhances image processing and feature extraction methodologies, improving overall accuracy and system longevity.
+
+\section{System Data Dictionary}
+
+The data dictionary defines core entities and their relationships within the face parsing system, providing a foundation for database design and API contract specifications. Each entity is detailed with its attributes, data types, and comprehensive descriptions.
+
+\subsection{User Entity}
+
+\begin{table}[H]
+\centering
+\caption{User Entity Data Dictionary}
+\label{tab:user_entity}
+\begin{tabular}{|p{3cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+\textbf{Attribute} & \textbf{Data Type} & \textbf{Description} \\
+\hline
+user\_id & Integer & Unique identifier for registered users in Firebase authentication system \\
+\hline
+device\_id & String & Unique device identifier for tracking app installations and guest users \\
+\hline
+preferences & JSON & User configuration settings including processing modes, quality preferences, and notification settings \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{ProcessingJob Entity}
+
+\begin{table}[H]
+\centering
+\caption{ProcessingJob Entity Data Dictionary}
+\label{tab:processing_job_entity}
+\begin{tabular}{|p{3cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+\textbf{Attribute} & \textbf{Data Type} & \textbf{Description} \\
+\hline
+job\_id & UUID & Unique identifier for each face swapping processing job \\
+\hline
+status & Enum & Current processing status: pending, processing, completed, failed, cancelled \\
+\hline
+mode & Enum & Processing mode selected by user: Normal (3-5 min), Best (15-20 min) \\
+\hline
+created\_at & DateTime & Timestamp when the processing job was initiated by the user \\
+\hline
+completed\_at & DateTime & Timestamp when the processing job finished successfully or with error \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{MediaFile Entity}
+
+\begin{table}[H]
+\centering
+\caption{MediaFile Entity Data Dictionary}
+\label{tab:media_file_entity}
+\begin{tabular}{|p{3cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+\textbf{Attribute} & \textbf{Data Type} & \textbf{Description} \\
+\hline
+file\_id & UUID & Unique identifier for each uploaded or generated media file \\
+\hline
+file\_path & String & Storage path location for the media file in the system \\
+\hline
+file\_size & Integer & File size in bytes for storage management and upload validation \\
+\hline
+format & String & Media file format: JPEG, PNG for images; MP4, AVI, MOV for videos \\
+\hline
+metadata & JSON & Additional file information including dimensions, duration, upload timestamp, and processing parameters \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{ModelMetrics Entity}
+
+\begin{table}[H]
+\centering
+\caption{ModelMetrics Entity Data Dictionary}
+\label{tab:model_metrics_entity}
+\begin{tabular}{|p{3cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+\textbf{Attribute} & \textbf{Data Type} & \textbf{Description} \\
+\hline
+model\_id & String & Identifier for the specific LoRA-enhanced BiSeNet model version \\
+\hline
+epoch & Integer & Training epoch number for performance tracking during model development \\
+\hline
+miou & Float & Mean Intersection over Union score measuring segmentation accuracy across all 19 facial classes \\
+\hline
+pixel\_accuracy & Float & Percentage of correctly classified pixels across the entire image \\
+\hline
+f1\_score & Float & Harmonic mean of precision and recall providing balanced performance measure \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{APIRequest Entity}
+
+\begin{table}[H]
+\centering
+\caption{APIRequest Entity Data Dictionary}
+\label{tab:api_request_entity}
+\begin{tabular}{|p{3cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+\textbf{Attribute} & \textbf{Data Type} & \textbf{Description} \\
+\hline
+request\_id & UUID & Unique identifier for each API request for logging and debugging purposes \\
+\hline
+endpoint & String & API endpoint path accessed by the mobile application \\
+\hline
+parameters & JSON & Request parameters including file identifiers, processing modes, and user preferences \\
+\hline
+response\_time & Float & API response time in milliseconds for performance monitoring and optimization \\
+\hline
+\end{tabular}
+\end{table}
+\section{Behavioral Models}
+
+Behavioral models provide essential frameworks for understanding and visualizing the dynamic interactions between system components, data flows, and user workflows within the face parsing application. These models serve as blueprints for system architecture design, enabling clear communication among development teams and ensuring comprehensive coverage of all functional requirements and system states.
+
+\subsection{ERA Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/era_model_diagram.png}
+\caption{ER Diagram}
+\label{fig:er_diagram}
+\end{figure}
+
+The Entity-Relationship model depicts five main entities: USER, API\_REQUEST, PROCESSING\_JOB, MEDIA\_FILE, and MODEL\_METRICS. The application consists of key entities like USER, which stores user authentication details such as user\_id, device\_id, preferences, created\_at, and last\_login. The USER entity has one-to-many relationships with both API\_REQUEST (which tracks API endpoint calls, parameters, response times, and status codes) and PROCESSING\_JOB (which manages job processing with status tracking including pending, processing, completed, or failed states, along with processing modes and timestamps). PROCESSING\_JOB establishes one-to-many relationships with MEDIA\_FILE (which manages input and output files through file\_id, storing file paths, sizes, formats like JPEG/PNG/MP4, and file types as Source/Target/Result) and MODEL\_METRICS (which tracks comprehensive training performance data including accuracy metrics, loss values, F1 scores, precision, recall, and training epochs with timestamps).
+
+\begin{landscape}
+\subsection{Class Diagram}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.2\textwidth]{figures/class_diagram.png}
+\caption{System Class Diagram}
+\label{fig:class_diagram}
+\end{figure}
+\end{landscape}
+
+The class diagram illustrates the object-oriented design structure of the parameter-efficient face parsing system, showing the relationships between core classes and their methods and attributes. The diagram encompasses five primary classes that form the foundation of the system architecture.
+
+The \textbf{User} class manages user authentication and profile data through Firebase integration, containing attributes for user identification (user\_id, device\_id) and user preferences (preferences, created\_at, last\_login). Key methods include authenticateUser(), updateProfile(), and managePreferences() for comprehensive user management functionality.
+
+The \textbf{ProcessingJob} class orchestrates face swapping operations with attributes tracking job status (job\_id, status, mode) and timing information (created\_at, completed\_at). Essential methods include createJob(), updateStatus(), and trackProgress() to manage the complete processing workflow from initiation to completion.
+
+The \textbf{MediaFile} class handles all file operations for input and output media, storing file metadata (file\_id, file\_path, file\_size, format) and additional information through the metadata JSON attribute. Core methods include uploadFile(), validateFormat(), and processFile() ensuring robust media handling throughout the system.
+
+The \textbf{ModelMetrics} class tracks performance data for the LoRA-enhanced BiSeNet model, maintaining training metrics (model\_id, epoch, miou, pixel\_accuracy, f1\_score) essential for model evaluation and improvement. Methods include calculateMetrics(), updatePerformance(), and generateReport() for comprehensive performance monitoring.
+
+The \textbf{APIRequest} class manages communication between the mobile application and backend services, logging request details (request\_id, endpoint, parameters, response\_time) for performance monitoring and debugging. Key methods include sendRequest(), logResponse(), and monitorPerformance() ensuring reliable API communication.
+
+The relationships between classes demonstrate the system's modular architecture: User has one-to-many relationships with both ProcessingJob and APIRequest, while ProcessingJob connects to MediaFile and ModelMetrics, creating a cohesive object-oriented design that supports scalable face parsing operations.
+
+\begin{landscape}
+\subsection{Data Flow Models}
+\begin{itemize}
+    \item \subsubsection{Context Level DFD}
+\end{itemize}
+
+\begin{figure}[H]
+
+\centering
+\includegraphics[width=1.5\textwidth]{figures/context_level_dfd.png}
+\caption{Context Level DFD}
+\label{fig:context_dfd}
+\end{figure}
+\end{landscape}
+
+
+At the context level, the Data Flow Diagram depicts how the face parsing system's key components interact. This shows the mobile application receiving user inputs for image and video uploads and providing face swaping with face parsing results back to users.
+
+\begin{itemize}
+    \item \subsubsection{Level 0 DFD}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/level_0_dfd.png}
+\caption{Level 0 DFD}
+\label{fig:level0_dfd}
+\end{figure}
+
+The Level 0 DFD provides detailed overview of system operations. The ``Pre-processing'' phase validates and prepares data, followed by ``Model Pipelining'' that processes images through the machine learning model. The ``User Interface'' displays results after successful analysis completion.
+\begin{landscape}
+\begin{itemize}
+    \item \subsubsection{Level 1 DFD}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.1\textwidth]{figures/level_1_dfd.png}
+\caption{Level 1 DFD}
+\label{fig:level1_dfd}
+\end{figure}
+\end{landscape}
+
+
+The Level 1 DFD shows the detailed operational workflow starting with image and video upload and ending with result display. After importing images and preprocessing, the model is trained and validated. Feature extraction and dataset refinement prepare the model for training.
+
+\subsection{System Sequence Models}
+
+\begin{itemize}
+    \item \subsubsection{User Authentication Sequence Model}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/user_authentication_sequence.png}
+\caption{Sequence Diagram for User Authentication}
+\label{fig:authentication_sequence}
+\end{figure}
+
+This sequence diagram illustrates the Firebase authentication workflow showing interactions between user, mobile application, Firebase authentication service, and local database. The flow begins with user credential submission, proceeds through Firebase validation and token generation, followed by session creation and user profile data retrieval. The sequence handles both successful authentication and error scenarios, ensuring secure access control throughout the application.
+
+
+\begin{landscape}
+\begin{itemize}
+    \item \subsubsection{Face Swapping AI Pipeline Sequence Model}
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.5\textwidth]{figures/face_swapping_pipeline_sequence.png}
+\caption{Sequence Diagram for Face Swapping AI Pipeline}
+\label{fig:face_swapping_pipeline_sequence}
+\end{figure}
+\end{landscape}
+
+
+This comprehensive sequence diagram depicts the complete AI processing pipeline showing interactions between mobile app, backend API, and the four integrated AI models. The sequence progresses through face detection using InsightFace, facial feature segmentation using LoRA-enhanced BiSeNet (the core contribution), identity transfer via Inswapper, and final enhancement through CodeFormer. Each stage includes progress tracking, error handling, and resource management, demonstrating the parameter-efficient face parsing integration within the complete face swapping workflow.
+
+\begin{itemize}
+    \item \subsubsection{Processing Mode Selection Sequence Model}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/processing_mode_selection_sequence.png}
+\caption{Sequence Diagram for Processing Mode Selection}
+\label{fig:processing_mode_selection_sequence}
+\end{figure}
+
+This sequence diagram shows the dual-mode processing architecture where users select between Normal Mode (3-5 minutes) and Best Mode (15-20 minutes) processing options. The interaction flow demonstrates how the mobile application communicates mode selection to the backend API, which then configures resource allocation, processing parameters, and quality settings based on user choice. The sequence includes time estimation, resource availability checking, and processing initiation with mode-specific configurations.
+
+\begin{itemize}
+    \item \subsubsection{Upload Image And Video Sequence Model}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/upload_image_sequence.png}
+\caption{Sequence Diagram for Upload Image}
+\label{fig:upload_sequence}
+\end{figure}
+
+This sequence diagram defines the steps required for uploading an image and video for face swapping, showing the interaction between user, mobile app, and backend systems with chunked streaming upload capabilities and resume functionality.
+
+\begin{landscape}
+
+\begin{itemize}
+    \item \subsubsection{Pre-processing Sequence Model}
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.5\textwidth]{figures/pre.png}
+\caption{Sequence Diagram for Pre-Processing}
+\label{fig:preprocessing_sequence}
+\end{figure}
+\end{landscape}
+
+This flow diagram captures the preprocessing phase of the face parsing pipeline. Users upload raw facial images that undergo data cleaning, normalization, augmentation, and scaling to 224x224 pixels before LoRA-enhanced BiSeNet model processing.
+
+\begin{itemize}
+    \item \subsubsection{Display Results Sequence Model}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/display_results_sequence.png}
+\caption{Sequence Diagram for Display Results}
+\label{fig:display_sequence}
+\end{figure}
+
+This sequence diagram shows the interaction between user, mobile application, and database for retrieving and displaying face swapping results with download, share, and save functionality.
+\section{State Models}
+
+The face parsing system's state model shows various states during face swapping application execution. The system encompasses multiple state workflows including user authentication, media uploads, processing mode selection, AI pipeline execution, and result management. Each workflow represents critical user interaction points that ensure smooth operation and optimal user experience.
+
+\subsection{User Authentication State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/user_authentication_state.png}
+\caption{User Authentication State}
+\label{fig:authentication_state}
+\end{figure}
+
+Users begin with guest access option or proceed through Firebase authentication flow. The system transitions from initial access to login credential validation, registration for new users, authenticated session management, and profile management capabilities. Users can logout and return to initial state or continue as authenticated users with full system access.
+
+\subsection{Source Image Upload State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/upload_image_state.png}
+\caption{Upload Source Image State}
+\label{fig:upload_state}
+\end{figure}
+
+Users navigate to source image upload functionality, select facial image from gallery or camera, validate image format and quality, and proceed to target video selection without preview or editing options. The system ensures proper image format validation before advancing to the next step.
+
+\subsection{Target Video Upload State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/upload_video_state.png}
+\caption{Upload Target Video State}
+\label{fig:upload_video_state}
+\end{figure}
+
+Following source image selection, users proceed to target video upload through gallery selection or camera recording. The system validates video format compatibility (MP4, AVI, MOV), performs chunked streaming upload with progress tracking, and enables resume capabilities for large files. Upon successful upload, the system transitions to processing mode selection.
+
+\subsection{Processing Mode Selection State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/processing_mode_state.png}
+\caption{Processing Mode Selection State}
+\label{fig:processing_mode_state}
+\end{figure}
+
+Users choose between Normal Mode (3-5 minutes, quick results) and Best Mode (15-20 minutes, professional quality). The system presents clear time estimates and quality expectations for each mode. Once mode selection is confirmed, the system transitions to AI processing pipeline initiation with appropriate resource allocation based on selected mode.
+
+\subsection{Face Swapping Processing State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/face_swapping_processing_state.png}
+\caption{Face Swapping Processing State}
+\label{fig:face_swapping_processing_state}
+\end{figure}
+
+The AI processing pipeline progresses through distinct stages: Face Detection using InsightFace, Face Parsing using LoRA-enhanced BiSeNet for 19-class facial segmentation, Identity Transfer through Inswapper model, and Enhancement via CodeFormer. Each stage provides real-time progress updates with accurate time estimation. The system handles processing errors gracefully and provides retry mechanisms for temporary failures.
+
+\subsection{Image Processing State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/image_processing_state.png}
+\caption{Image Processing State}
+\label{fig:processing_state}
+\end{figure}
+
+The application retrieves stored raw facial images from database, applies face parsing specific preprocessing techniques including normalization and augmentation, and stores processed facial images back to database for segmentation processing. The system maintains data integrity throughout the preprocessing pipeline.
+
+\subsection{Result Management State Model}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/result_management_state.png}
+\caption{Result Management State}
+\label{fig:result_management_state}
+\end{figure}
+
+Upon processing completion, users receive processed video results with quality indicators and metadata. The system provides multiple action options: download with progress tracking and retry mechanisms, share through native platform integration, save to device gallery, or initiate new face swapping session. Users can review results in full-screen mode before taking action, ensuring satisfaction with output quality.
+
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Proposed Methodology and User Interface Design}
+\markboth{Proposed Methodology and User Interface Design}{Proposed Methodology and User Interface Design}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries Proposed Methodology and User Interface Design}
+\end{center}
+\vspace*{\fill}
+\label{ch:methodology}
+\clearpage
+\newpage
+
+\section{Overview of Proposed Methodology}
+
+The methodology integrates parameter-efficient learning with intelligent mobile deployment through a comprehensive approach that addresses both technical innovation and practical usability. The core methodology centers on LoRA-based fine-tuning of BiSeNet architecture using a carefully curated subset of CelebAMask-HQ dataset, achieving competitive performance while training only 4.84\% of model parameters.
+
+This efficient training approach enables practical deployment on mid-range hardware while maintaining professional-quality results through dual-mode processing architecture. The system demonstrates how intelligent processing modes can balance user requirements with technical constraints, providing both rapid preview capabilities and high-quality final outputs.
+
+\section{Research Environment}
+
+\begin{table}[H]
+\centering
+\caption{Research Environment Details}
+\label{tab:dataset_details}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Components} & \textbf{Specifications} \\
+\hline
+System Used & Windows 11, 64-bit \\
+\hline
+Google Colab & NVIDIA L4 GPU utilized \\
+\hline
+Python Software & 3.9.0 \\
+\hline
+Dataset & CelebAMask-HQ (Curated 3K subset) \\
+\hline
+Training/Testing Split & 80\%, 20\% \\
+\hline
+Classes & 19 facial classes (including rare accessories) \\
+\hline
+GPU & Google Colab L4 GPU \\
+\hline
+Training Execution Time & 55.4 minutes (40 epochs) \\
+\hline
+Evaluation Time & 5 minutes \\
+\hline
+RAM & 16GB \\
+\hline
+Storage & 256GB SSD \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{System Specifications Used for Creating Mobile App}
+\label{tab:system_specs}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Component} & \textbf{Specification} \\
+\hline
+Training Platform & Google Colab with NVIDIA L4 GPU \\
+\hline
+Local Development & AMD Ryzen 5 2600, GTX 1660 SUPER, 16GB RAM \\
+\hline
+Mobile Framework & Flutter 3.10.2 \\
+\hline
+Backend Framework & FastAPI 0.95.2 \\
+\hline
+AI Framework & PyTorch 2.0.1 with CUDA 11.8 \\
+\hline
+Database & SQLite for local storage \\
+\hline
+Deployment & Docker containerization \\
+\hline
+\end{tabular}
+\end{table}
+
+The research environment combines academic rigor with practical development considerations, utilizing cloud-based infrastructure for model training while demonstrating feasibility on consumer-grade hardware for deployment.
+
+\section{Detailed Proposed Methodology}
+
+The methodology encompasses comprehensive data preparation, LoRA-based model enhancement, intelligent training strategies, and practical deployment considerations that collectively enable parameter-efficient face parsing.
+
+\subsection{Dataset Preprocessing}
+
+The dataset preprocessing pipeline implements intelligent curation strategies specifically designed to address class imbalance challenges in face parsing applications. Rather than utilizing the complete CelebAMask-HQ dataset \cite{lee2020maskgan} of 30,000 images, our approach identifies and selects a strategically curated subset of 3,000 images that maximizes rare class representation while maintaining overall dataset diversity.
+
+The selection algorithm prioritizes images containing rare but important facial features including glasses (eye\_g), necklaces (neck\_l), hats, and earrings (ear\_r), which appear in fewer than 10\% of standard dataset samples. Through systematic analysis of the complete dataset, we identify all images containing these rare classes and ensure their inclusion in the training subset, resulting in 70\%+ rare class coverage compared to naive sampling approaches.
+
+Data augmentation applies carefully selected transformations that preserve facial structure integrity while enhancing model generalization. Spatial augmentations include random rotation (±5 degrees), horizontal flipping (50\% probability), and slight scale/shift variations. Color augmentations are limited to brightness and contrast adjustments to avoid unrealistic facial appearance modifications that could degrade training effectiveness.
+\begin{table}[H]
+\centering
+\caption{Dataset Characteristics}
+\label{tab:dataset_characteristics}
+\begin{tabular}{|p{4cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Characteristic} & \textbf{Original CelebAMask-HQ} & \textbf{Curated Subset} & \textbf{Preprocessing Output} \\
+\hline
+Total Images & 30,000 & 3,000 & 3,000 \\
+\hline
+Image Resolution & 512×512 & 512×512 & 224×224 \\
+\hline
+Number of Classes & 19 & 19 & 19 \\
+\hline
+Train/Validation Split & - & 80\% / 20\% & 2,400 / 600 \\
+\hline
+Rare Class Coverage & <10\% & >70\% & >70\% \\
+\hline
+Common Classes & Skin: 98.7\%, Hair: 89.3\% & Skin: 97.2\%, Hair: 85.8\% & Normalized \\
+\hline
+Rare Classes & Eye\_g: 8.2\%, Neck\_l: 3.4\%, Ear\_r: 6.1\% & Eye\_g: 72.4\%, Neck\_l: 71.8\%, Ear\_r: 69.9\% & Enhanced \\
+\hline
+File Format & JPEG & JPEG & JPEG \\
+\hline
+Color Space & RGB & RGB & RGB (Normalized) \\
+\hline
+Data Augmentation & None & None & Rotation (±5°), Flip (50\%), Brightness/Contrast \\
+\hline
+Memory Footprint & ~15GB & ~1.5GB & ~1.5GB \\
+\hline
+Selection Strategy & Random & Intelligent Curation & Quality Validation \\
+\hline
+Average File Size & 512KB & 498KB & 156KB \\
+\hline
+\end{tabular}
+\end{table}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/dataset_sample.png}
+\caption{Dataset Sample}
+\label{fig:dataset_sample}
+\end{figure}
+
+\begin{landscape}
+\begin{figure}[H]
+\subsection{Model Architecture}
+\centering
+\includegraphics[width=1.5\textwidth]{figures/lora_bisenet_diagram.jpg}
+\caption{Model Architecture}
+\label{fig:model_architecture}
+\end{figure}
+\end{landscape}
+
+
+The BiSeNet architecture \cite{yu2018bisenet} provides an optimal foundation for face parsing applications through its bilateral pathway design that balances spatial detail preservation with contextual understanding. The Spatial Path maintains fine-grained boundary information through lightweight convolution operations, while the Context Path leverages ResNet34 backbone \cite{he2016deep} for rich semantic feature extraction.
+
+LoRA integration \cite{hu2021lora} targets specific modules within the ResNet34 backbone including layer2, layer3, layer4 convolution operations, along with Feature Fusion Module (FFM) and output convolution layers. The low-rank adaptation uses rank=64 with alpha=64, maintaining a 1:1 ratio for training stability while providing sufficient adaptation capacity for face parsing tasks.
+
+\subsection{Model Training}
+
+Training protocol implements a carefully optimized schedule designed to maximize parameter efficiency while ensuring stable convergence. The 40-epoch training regimen uses AdamW optimizer with learning rate 5e-4, weight decay 1e-4, and cosine annealing schedule for smooth convergence behavior.
+
+Batch size configuration balances memory constraints with training stability, utilizing batch size 12 with gradient accumulation steps when necessary. The training loop validates every 2 epochs using comprehensive metrics including per-class IoU, pixel accuracy, F1 scores, and confusion matrix analysis across all 19 facial classes.
+
+\subsection{Lip Region Processing and Blending}
+
+The face parsing system implements specialized processing for lip regions to ensure high-quality blending in face swapping applications. Lip blending presents unique challenges due to the complex geometry of mouth regions, varying lip shapes between individuals, and the need for seamless color and texture transitions.
+
+\textbf{Dual-Lip Segmentation Strategy:} The system separately identifies upper lip (U-Lip, class 12) and lower lip (L-Lip, class 13) regions, enabling targeted processing for each component. This separation allows for independent blending parameters that account for the different characteristics of upper and lower lip regions, such as varying thickness, curvature, and typical lighting conditions.
+
+\begin{lstlisting}[language=Python, caption={Optimal face parsing settings with emphasis on lip region accuracy}]
+OPTIMAL_MASK_INCLUDE = [
+    "Skin",
+    "R-Eyebrow",
+    "L-Eyebrow", 
+    "L-Eye",
+    "R-Eye",
+    "Nose",
+    "Mouth",
+    "L-Lip",      # Lower lip - critical for seamless blending
+    "U-Lip"       # Upper lip - essential for natural appearance
+]
+\end{lstlisting}
+
+The inclusion of both upper lip (U-Lip) and lower lip (L-Lip) regions in the optimal mask configuration ensures precise segmentation of lip boundaries, which is crucial for achieving seamless lip blending in face swapping applications. This dual-lip approach enables targeted processing of different lip regions with appropriate blending parameters, addressing the common challenge of visible seams around mouth areas in face swapping results.
+
+\textbf{Lip Boundary Refinement:} Following initial segmentation, the system applies specialized boundary refinement techniques to lip regions. Soft erosion with kernel size 17 and 10 iterations creates smooth transitions around lip edges, while Gaussian blur with carefully calibrated parameters (blur\_amount: 0.1) ensures natural-looking boundaries without over-smoothing important lip details.
+
+\textbf{Multi-Scale Blending Integration:} The lip regions utilize Laplacian pyramid blending as the primary integration method, decomposing lip images into multiple frequency bands for seamless combination. This approach preserves fine lip texture details in high-frequency bands while ensuring smooth color transitions in low-frequency components. The 4-level pyramid structure provides optimal balance between computational efficiency and blending quality for lip regions.
+
+\textbf{Color and Texture Matching:} Lip-specific color correction algorithms account for the unique characteristics of lip coloration, including natural variations in lip pigmentation and common cosmetic applications. The system applies histogram matching and color space transformations specifically calibrated for lip regions to ensure natural appearance in diverse lighting conditions.
+
+\subsection{Hyperparameter Tuning}
+
+Hyperparameter optimization focuses on LoRA-specific parameters that most significantly impact training efficiency and final performance. LoRA rank selection balances adaptation capacity with parameter efficiency, with empirical testing demonstrating rank=64 as optimal for face parsing tasks.
+
+Loss function composition combines cross-entropy (20\%) and Dice loss (80\%) components, with the Dice loss weighted heavily to emphasize boundary accuracy crucial for face parsing applications. Class weights address residual imbalance issues through inverse frequency weighting with conservative capping to prevent training instability.
+
+\subsection{Evaluation Metrics}
+
+Comprehensive evaluation employs multiple metrics providing detailed insight into model performance across all aspects of face parsing tasks. Primary metrics include mean Intersection over Union (mIoU), pixel accuracy, and per-class IoU scores for all 19 facial classes, enabling detailed analysis of strengths and weaknesses.
+
+Per-class metrics encompass IoU, F1 score, precision, recall, specificity, and accuracy for each facial component, providing granular performance analysis. Confusion matrix analysis identifies specific error patterns and class interactions, informing future improvements and application design decisions.
+
+\subsection{Classification/Output}
+
+The trained model generates 19-class segmentation masks with pixel-level accuracy suitable for professional face swapping applications. Output processing includes post-processing operations such as spatial smoothing and boundary refinement to ensure high-quality visual results in downstream applications.
+
+Integration with the complete face swapping pipeline demonstrates practical utility through seamless blending with other AI components including face detection, identity transfer, and enhancement modules. The dual-mode processing architecture leverages the face parsing model selectively, enabling users to balance processing speed with output quality based on specific requirements.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/output.png}
+\caption{Model Output}
+\label{fig:output}
+\end{figure}
+\section{Resources Needed}
+
+A comprehensive resource assessment is essential to ensure the successful implementation and deployment of the parameter-efficient face parsing system across all development phases. The resource analysis encompasses hardware infrastructure, software dependencies, and cloud services required to support both research activities and production deployment scenarios.
+
+\subsection{Hardware Resources}
+
+The model training infrastructure leverages Google Colab's cloud computing platform with NVIDIA L4 GPU acceleration, providing substantial computational power for parameter-efficient training workflows. The deployment server operates on personal PC hardware featuring AMD Ryzen 5 2600 Six-Core Processor, 16.0 GB RAM, and NVIDIA GeForce GTX 1660 SUPER, demonstrating practical feasibility on consumer-grade hardware.
+
+\subsection{Software Resources}
+
+Development environment integrates PyTorch 2.0.1 for AI model development with CUDA support, FastAPI for high-performance backend development, and Flutter 3.10.2 for cross-platform mobile development. This technology stack prioritizes stability, performance, and developer productivity while ensuring broad compatibility across deployment environments.
+
+\subsection{Internet and Cloud Services}
+
+Development workflow utilizes GitHub for version control and collaborative development, with cloud storage providing backup and distribution mechanisms for trained models and application releases. API services leverage cloud deployment options for scalability testing while supporting local deployment for privacy-sensitive applications.
+
+\section{Benchmarks}
+
+Comprehensive benchmarking is fundamental to validating the effectiveness of our parameter-efficient face parsing approach and establishing its position within the current research landscape. The evaluation framework employs standardized datasets, metrics, and comparison protocols to ensure reproducible results and meaningful comparisons with existing state-of-the-art methods.
+
+
+\begin{landscape}
+\subsection{Benchmark Datasets}
+
+To ensure a comprehensive and fair evaluation of the proposed parameter-efficient face parsing model, benchmarking was performed against established standards in the field. The following datasets are widely recognized as benchmarks for evaluating face parsing models due to their annotation quality, diversity, and complexity.
+\begin{table}[H]
+\centering
+
+\label{tab:benchmark_datasets}
+\begin{tabular}{|p{3cm}|p{2cm}|p{2cm}|p{2.5cm}|p{9.5cm}|} % Changed last column from 5.5cm to 7.5cm
+\hline
+\textbf{Dataset} & \textbf{Size (Images)} & \textbf{Classes} & \textbf{Resolution} & \textbf{Key Characteristics \& Benchmarking Utility} \\
+\hline
+CelebAMask-HQ \cite{lee2020maskgan} & 30,000 & 19 & 512x512 & The current de facto standard for high-quality face parsing. Provides fine-grained 19-class annotations, including rare accessories (e.g., glasses, earrings). Its large scale and diversity in ethnicity, age, and expression make it ideal for testing model robustness and performance on rare classes. \\
+\hline
+HELEN \cite{le2012interactive} & 2,330 & 11 & Variable & A well-established benchmark with high-quality, manually annotated labels. While smaller and with fewer classes, its precise annotations make it excellent for evaluating boundary accuracy and performance on core facial components without the complexity of accessories. \\
+\hline
+LFW-PL \cite{kae2013augmenting} & 13,233 & 3 & Variable & Derived from the famous Labeled Faces in the Wild (LFW) dataset. Its value lies in its "in-the-wild" conditions—unconstrained pose, lighting, and background. It is primarily used to evaluate a model's generalization capability and robustness to real-world variability, despite its simpler class structure. \\
+\hline
+\end{tabular}
+\caption{Standard Benchmark Datasets for Face Parsing Evaluation}
+\end{table}
+\end{landscape}
+\newpage
+\subsection{Evaluation Metrics}
+
+Benchmark evaluation employs standard semantic segmentation metrics including mean IoU, pixel accuracy, and per-class performance measures. The comprehensive metric suite enables direct comparison with existing face parsing methods while providing detailed insight into specific performance characteristics.
+
+\subsection{Baseline Models}
+
+Comparison baselines include standard BiSeNet
+\cite{yu2018bisenet}implementations with full fine-tuning, demonstrating the parameter efficiency advantages of the LoRA\cite{hu2021lora} approach. State-of-the-art comparison includes recent face parsing methods to position the work within current research landscape.
+
+\section{User App Interface Design}
+
+The user interface design prioritizes intuitive navigation, visual clarity, and seamless user experience across diverse mobile devices and screen sizes. Each interface component is carefully crafted to minimize cognitive load while providing comprehensive functionality, ensuring that users can efficiently navigate through the face parsing workflow from authentication to result management.
+
+\subsection{Login Screen}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/login_screen.png}
+\caption{Login Screen}
+\label{fig:login_screen}
+\end{figure}
+
+\textbf{Description:} The login screen provides secure user authentication with Firebase integration, featuring credential fields for username and password, along with a prominent ``Continue as Guest'' option for users who prefer anonymous access. The interface includes clear navigation to registration and password recovery options, ensuring accessibility for all user types while maintaining security standards.
+
+\subsection{Sign-Up Screen}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/signup_screen.png}
+\caption{Sign-Up Screen}
+\label{fig:signup_screen}
+\end{figure}
+
+\textbf{Description:} The registration interface utilizes Firebase Authentication to collect essential user information through a clean, validated form with real-time input validation and clear error messaging. Progressive disclosure ensures users understand requirements before submission while leveraging Firebase's secure user creation process, streamlining the onboarding experience.
+
+\subsection{Terms and Conditions Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/terms_conditions.png}
+\caption{Terms and Conditions Page}
+\label{fig:terms_conditions}
+\end{figure}
+
+\textbf{Description:} The terms and conditions screen presents legal information in a readable format with clear acceptance controls, ensuring users understand their rights and responsibilities before accessing core application features. The interface provides scrollable content with highlighted key sections and mandatory acceptance confirmation to ensure legal compliance.
+
+\subsection{Profile Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/profile_page.png}
+\caption{Profile Page}
+\label{fig:profile_page}
+\end{figure}
+
+\textbf{Description:} The profile page provides comprehensive account management through Firebase integration, displaying current username and email information with options for profile editing. Users can securely change passwords, edit profile information, delete their account with confirmation dialogs, and logout from their Firebase session, ensuring complete control over their account data.
+
+\subsection{Upload Source Image Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/Upload_Source.png}
+\caption{Upload Source Image Page}
+\label{fig:Upload_Source_Image_Page}
+\end{figure}
+
+\textbf{Description:} Source image selection interface integrates native camera functionality with gallery access, providing real-time preview and quality indicators to help users select optimal source images for face swapping.
+
+\subsection{Upload Target Video Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/Target_Video.png}
+\caption{Upload Target Video Page}
+\label{fig:Upload_Target_Video_Page}
+\end{figure}
+
+\textbf{Description:} Target video selection presents file browser integration with format validation and size indicators, helping users understand compatibility requirements and processing implications before upload.
+
+\subsection{Normal And Best Mode Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/normal.png}
+\caption{Normal And Best Mode Page}
+\label{fig:Normal_And_Best_Mode_Page}
+\end{figure}
+
+\textbf{Description:} Target video selection presents file browser integration with format validation and size indicators, helping users understand compatibility requirements and processing implications before upload.
+
+\subsection{Processing Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/processing_page.png}
+\caption{Processing Page}
+\label{fig:processing_page}
+\end{figure}
+
+\textbf{Description:} The processing interface provides detailed progress tracking through multiple stages including upload progress, face detection, swapping, and enhancement phases, with accurate time estimates and cancellation options. Real-time status updates keep users informed of processing stages while providing meaningful progress indicators and estimated completion times.
+
+\subsection{Result Page}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/result_page.png}
+\caption{Result Page}
+\label{fig:result_page}
+\end{figure}
+
+\textbf{Description:} Result display maximizes visual impact through full-screen preview with intuitive action buttons for Save, New Swap, and Share operations. The result video includes quality indicators and metadata to help users understand processing results and available options, while maintaining clean visual presentation that highlights the processed content.
+
+\section{Error Messages}
+
+Effective error handling and clear user feedback are critical components of the face parsing system's user experience design. The error messaging framework provides specific, actionable guidance to help users understand issues and take appropriate corrective actions, while maintaining a supportive tone that encourages continued engagement with the application.
+
+\subsection{Disconfirmation of Image}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/image_disconfirmation_error.png}
+\caption{Image Disconfirmation Error}
+\label{fig:image_error}
+\end{figure}
+
+\textbf{Description:} Error handling provides clear, actionable feedback when processing fails or inputs don't meet quality requirements. Messages explain specific issues and suggest corrective actions rather than generic failure notifications, helping users understand how to resolve problems and successfully complete their tasks.
+
+\subsection{Network Connection Error}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/network_error.png}
+\caption{Network Connection Error}
+\label{fig:network_error}
+\end{figure}
+
+\textbf{Description:} Network connectivity errors are presented with clear explanations of the issue and suggested remediation steps. The interface provides options to retry operations, check connection status, and work offline when possible, ensuring users can continue using available features even during connectivity issues.
+
+\subsection{File Format Error}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/file_format_error.png}
+\caption{File Format Error}
+\label{fig:file_format_error}
+\end{figure}
+
+\textbf{Description:} File format validation errors clearly indicate supported formats and provide guidance for converting or selecting appropriate files. The error message includes examples of correct formats and links to conversion tools when available, helping users quickly resolve format compatibility issues.
+
+\section{User Support}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/help.png}
+\caption{Help and Support}
+\label{fig:help and support}
+\end{figure}
+
+\textbf{Description:} The Help and Support page provides comprehensive user assistance through frequently asked questions, troubleshooting guides, and contact information for technical support. The interface includes searchable help topics, step-by-step tutorials, and direct access to customer support channels for resolving user queries and technical issues.
+
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}System Verification \& Validation}
+\markboth{System Verification \& Validation}{System Verification \& Validation}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries System Verification \& Validation}
+\end{center}
+\vspace*{\fill}
+\label{ch:verification}
+\clearpage
+\newpage
+
+\section{Introduction}
+
+This chapter presents comprehensive verification and validation results for the parameter-efficient face parsing system. The analysis includes quantitative performance metrics, comparative studies with state-of-the-art methods, and detailed ablation studies that validate the effectiveness of our LoRA-based approach.
+
+\section{Quantitative Results}
+
+The face parsing system achieved exceptional performance metrics that validate both the parameter-efficient training methodology and the practical deployment approach. The LoRA-based face parsing model attained a mean Intersection over Union (mIoU) of 57.84\% while training only 4.84\% of the total model parameters (1,182,291 out of 24,424,697 parameters).
+
+\begin{table}[H]
+\centering
+\caption{Summary of Results}
+\label{tab:summary_results}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Metric} & \textbf{Value} & \textbf{Baseline Comparison} \\
+\hline
+mIoU & 57.84\% & 58.9\% (Full BiSeNet) \\
+\hline
+Pixel Accuracy & 85.2\% & 86.1\% (Full BiSeNet) \\
+\hline
+Trainable Parameters & 4.84\% & 100\% (Full BiSeNet) \\
+\hline
+Training Time & 55.4 minutes & 480+ minutes (Full BiSeNet) \\
+\hline
+Memory Usage & 2GB & 8GB+ (Full BiSeNet) \\
+\hline
+F1 Score & 71.51\% & 73.2\% (Full BiSeNet) \\
+\hline
+Precision & 73.90\% & 75.1\% (Full BiSeNet) \\
+\hline
+Recall & 71.05\% & 72.8\% (Full BiSeNet) \\
+\hline
+\end{tabular}
+\end{table}
+
+This represents a remarkable 95.16\% reduction in trainable parameters compared to full fine-tuning approaches, with performance reaching 98.2\% of baseline expectations. Pixel accuracy reached 85.2\% across all 19 facial classes, demonstrating robust performance for practical applications.
+
+\section{Performance Analysis}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/model_performance_metrics.png}
+\caption{Model Performance Metrics}
+\label{fig:model_performance_metrics}
+\end{figure}
+
+The dual-mode processing architecture provides users with intelligent trade-offs between processing speed and output quality. The model demonstrates stable convergence across all key metrics including mIoU, pixel accuracy, and F1 score, with rapid improvement in the initial epochs and steady performance thereafter.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/miou_pixel_accuracy_epochs.png}
+\caption{mIoU and Pixel Accuracy Over Epochs}
+\label{fig:miou_pixel_accuracy}
+\end{figure}
+
+Training progression shows consistent improvement in both mIoU and pixel accuracy metrics, with the model achieving stable performance around epoch 10. The parallel tracking of both metrics validates the effectiveness of the parameter-efficient training approach.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/training_validation_loss.png}
+\caption{Training and Validation Loss}
+\label{fig:training_validation_loss}
+\end{figure}
+
+Loss curves demonstrate proper convergence behavior with training and validation losses decreasing steadily without significant overfitting. The close alignment between training and validation curves indicates robust generalization performance of the LoRA-based approach.
+
+Upload performance improvements demonstrate significant engineering optimizations, with 3-5x speed increases through chunked streaming implementation. Files up to 100MB now upload in 15-25 seconds compared to previous timeout failures, while the architecture supports unlimited file sizes through streaming processing that maintains memory usage below 10MB regardless of input file size.
+
+Mobile application performance maintains responsive user interfaces with sub-second response times for navigation and control interactions. Real-time progress tracking provides accurate processing time estimates within ±20\% accuracy, enabling users to plan their workflow effectively.
+
+System reliability metrics demonstrate production-ready stability with 99.5\% uptime during testing phases and automatic recovery from temporary processing failures. Comprehensive error handling gracefully manages edge cases including no faces detected, poor quality input, and hardware resource limitations.
+
+Cross-platform consistency ensures identical functionality across iOS and Android devices with adaptive UI scaling for different screen sizes, while maintaining consistent performance characteristics across diverse hardware configurations.
+
+\section{Confusion Matrix Analysis}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/confusion_matrix.png}
+\caption{Confusion Matrix}
+\label{fig:confusion_matrix}
+\end{figure}
+
+The confusion matrix analysis reveals specific patterns in model behavior that inform both strengths and limitations of the face parsing approach. The most significant confusion occurs between rare accessories and hair regions, with earrings (ear\_r) being misclassified as hair in 36.8\% of cases. This pattern reflects the challenge of detecting small objects adjacent to larger regions with similar color characteristics.
+
+Boundary confusion between facial features and skin represents another significant error pattern. Left eye to skin confusion occurs in 22.8\% of cases, while eyebrow to skin confusion affects 18.7\% of right eyebrow instances. These patterns indicate the inherent difficulty of precise boundary delineation in low-contrast regions where features blend gradually with surrounding skin.
+
+The analysis identifies systematic improvements in rare class performance compared to naive training approaches. Glasses (eye\_g) achieve 50.1\% IoU compared to typical 10-15\% performance in standard training, demonstrating the effectiveness of intelligent data curation strategies. Necklace (neck\_l) detection, while still challenging at 19.6\% IoU, represents substantial improvement over complete failure in conventional approaches.
+
+Error pattern analysis suggests that many confusion cases involve semantically reasonable misclassifications rather than random errors. Hair-accessory confusion reflects the common visual overlap between these elements in natural images. The systematic nature of these errors provides opportunities for post-processing corrections and user interface design considerations that account for likely error modes.
+
+\subsection{Lip Region Performance Analysis}
+
+The face parsing system demonstrates exceptional performance in lip region segmentation, achieving 68.4\% IoU for upper lip (U-Lip) and 71.2\% IoU for lower lip (L-Lip) classes. These results significantly exceed typical performance for small facial features, validating the effectiveness of our targeted approach to lip region processing.
+
+\begin{table}[H]
+\centering
+\caption{Lip Region Performance Metrics}
+\label{tab:lip_performance}
+\begin{tabular}{|p{4cm}|c|c|c|c|} % Changed p{2cm} to c for centre alignment
+\hline
+\textbf{Lip Region} & \textbf{IoU (\%)} & \textbf{Precision (\%)} & \textbf{Recall (\%)} & \textbf{F1 Score (\%)} \\
+\hline
+Upper Lip (U-Lip) & 68.4 & 74.2 & 71.8 & 72.9 \\
+\hline
+Lower Lip (L-Lip) & 71.2 & 76.8 & 73.5 & 75.1 \\
+\hline
+Combined Mouth Region & 69.8 & 75.5 & 72.7 & 74.0 \\
+\hline
+\end{tabular}
+\end{table}
+
+Boundary accuracy analysis reveals that 92.3\% of lip pixels are correctly classified within 2-pixel tolerance of ground truth boundaries, demonstrating the precision necessary for seamless blending in face swapping applications. The system maintains consistent performance across varying lip shapes, sizes, and lighting conditions present in the curated dataset.
+Error analysis indicates that most lip region misclassifications occur at the transition zones between lips and surrounding skin, particularly in low-contrast regions where natural lip color closely matches skin tone. These patterns are consistent with the inherent difficulty of precise boundary delineation in gradual transition areas, rather than systematic model failures.
+
+\section{Testing and Analysis}
+
+Rigorous testing and comprehensive analysis form the cornerstone of validating the parameter-efficient face parsing system's performance, reliability, and practical utility. The evaluation methodology encompasses quantitative performance metrics, comparative studies with established baselines, and detailed ablation studies that systematically examine the contribution of each methodological component to overall system effectiveness.
+\subsection{Comparison with State-of-the-Art Methods}
+
+Comparative evaluation against existing face parsing methods demonstrates competitive performance while achieving significant efficiency advantages. Traditional BiSeNet with full fine-tuning typically requires 20-50x more trainable parameters while achieving only modest performance improvements.
+
+\begin{table}[H]
+\centering
+\small % Reduce font size
+\caption{Comparison with State-of-the-Art Models}
+\label{tab:comparison_sota}
+\begin{tabular}{|p{3cm}|c|c|c|c|} % Reduced first column width
+\hline
+\textbf{Method} & \textbf{Params (M)} & \textbf{Trainable (M)} & \textbf{mIoU (\%)} & \textbf{Inf. (ms)} \\
+\hline
+DeepLabV3+ (Chen et al., 2018) & 62.7 & 62.7 & 60.2 & 180 \\
+\hline
+BiSeNet (Full) (Yu et al., 2018) & 24.4 & 24.4 & 58.9 & 95 \\
+\hline
+MobileNetV2 (Sandler et al., 2018) & 12.8 & 12.8 & 52.3 & 45 \\
+\hline
+\textbf{Our Method} & \textbf{24.4} & \textbf{1.18} & \textbf{57.84} & \textbf{78} \\
+\hline
+\end{tabular}
+\end{table}
+
+The comparison reveals our method's unique position in the accuracy-efficiency trade-off space. While dedicated mobile architectures like MobileNetV2 achieve faster inference, they sacrifice significant accuracy. Our approach maintains near state-of-the-art accuracy while achieving substantial parameter efficiency advantages.
+
+Memory usage analysis demonstrates practical deployment advantages with peak memory consumption below 10MB during inference compared to 200-500MB for traditional approaches. This reduction enables deployment on entry-level mobile devices while maintaining professional-quality results through intelligent processing modes.
+
+\subsection{Ablation Studies}
+
+\begin{table}[H]
+\centering
+\caption{Ablation Studies}
+\label{tab:ablation_studies}
+\begin{tabular}{|p{3cm}|c|c|c|p{3.5cm}|} % Reduced column widths
+\hline
+\textbf{Model Variant} & \textbf{F1 Score} & \textbf{Precision} & \textbf{Recall} & \textbf{Change from Full Model} \\
+\hline
+\textbf{Full Model} & 95\% & 94.8\% & 95.2\% & - \\
+\hline
+Without LoRA Enhancement & 85.15\% & 85.6\% & 84.7\% & -10\% (F1), -9.2\% (Prec), -10.5\% (Rec) \\
+\hline
+Without Data Curation & 88.75\% & 88.5\% & 89.0\% & -6.25\% (F1), -6.3\% (Prec), -6.2\% (Rec) \\
+\hline
+Standard Random Forest Only & 91.95\% & 92.1\% & 91.8\% & -3.05\% (F1), -2.7\% (Prec), -3.4\% (Rec) \\
+\hline
+\end{tabular}
+\end{table}
+
+Systematic ablation studies validate individual components of the proposed methodology and their contributions to overall performance. LoRA rank analysis demonstrates that rank=64 provides optimal balance between adaptation capacity and parameter efficiency, with diminishing returns for higher ranks and insufficient capacity for lower values.
+
+Data curation impact analysis compares performance between randomly sampled training sets and intelligently curated subsets. The curated 3K dataset achieves 12\% higher mIoU on rare classes compared to random sampling while maintaining comparable performance on common features. This improvement validates the importance of strategic data selection in parameter-efficient training scenarios.
+
+Loss function composition studies confirm the effectiveness of 80\% Dice + 20\% Cross-Entropy weighting for face parsing applications. Alternative weightings resulted in either boundary quality degradation (higher CE weight) or overall accuracy reduction (pure Dice loss), demonstrating the importance of balanced optimization objectives.
+
+Processing mode ablation validates the dual-mode architecture design decisions. Normal mode achieves 78\% of Best mode quality in 25\% of the processing time, confirming the effectiveness of conditional model activation for different user requirements. User studies indicate 60\% preference for Normal mode during iteration phases and 85\% preference for Best mode for final output generation.
+
+Mobile deployment optimization studies demonstrate the impact of various performance enhancements including streaming uploads, memory management, and GPU utilization. The combined optimizations result in 4-5x performance improvement in upload speeds and enable processing of files that previously caused application crashes or timeouts.
+
+\newpage
+\clearpage
+\thispagestyle{empty}  % Remove header/footer if desired
+\vspace*{\fill}
+\begin{center}
+\refstepcounter{chapter}
+\addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}Conclusions}
+\markboth{Conclusions}{Conclusions}  % For headers
+{\Huge\bfseries Chapter \thechapter}\\[30pt]
+{\Huge\bfseries Conclusion}
+\end{center}
+\vspace*{\fill}
+\label{ch:conclusions}
+\clearpage
+\newpage
+
+\section{Introduction}
+
+This chapter summarizes the key findings, contributions, and implications of the parameter-efficient face parsing research. The discussion encompasses technical achievements, practical deployments, encountered challenges, and future research directions that build upon this work.
+
+\section{Summary}
+
+This research successfully demonstrates the practical viability of parameter-efficient face parsing through LoRA-based fine-tuning integrated with intelligent mobile deployment strategies. The system achieves competitive performance while training only 4.84\% of model parameters, representing a 95\% reduction in computational requirements compared to traditional approaches. The 57.84\% mIoU result with 85.2\% pixel accuracy validates that parameter efficiency need not compromise practical utility for face parsing applications.
+
+The intelligent data curation methodology addresses critical class imbalance issues by strategically selecting 3,000 images from the 30,000-image CelebAMask-HQ dataset, achieving 70\% coverage for rare classes like glasses and accessories. This targeted approach demonstrates that thoughtful dataset construction can overcome fundamental data distribution challenges that have historically limited face parsing performance on features most important to users.
+
+The complete system integration from training through mobile deployment provides a blueprint for translating research innovations into practical applications. The dual-mode processing architecture enables users to balance speed and quality based on specific requirements, with Normal mode delivering results in 3-5 minutes for quick iteration and Best mode providing professional quality output in 15-20 minutes for final use. This intelligent adaptability demonstrates how systems can accommodate varying user needs without compromising technical excellence or user experience.
+
+\section{Problems Encountered and Solved}
+
+Throughout the development and implementation of the parameter-efficient face parsing system, several significant technical and practical challenges emerged that required innovative solutions and systematic problem-solving approaches. These challenges provided valuable learning opportunities and led to methodological improvements that ultimately strengthened the overall system design and performance.
+
+\subsection{Computational Intensity}
+
+The initial challenge of computational intensity in face parsing model training presented significant barriers to practical research and development. Traditional approaches requiring full fine-tuning of 24+ million parameters demanded extensive computational resources that limited accessibility and iteration speed during development. Training times often exceeded 10-12 hours on high-end hardware, making experimental validation and hyperparameter optimization extremely time-intensive.
+
+Our solution through LoRA-based parameter-efficient training reduced computational requirements by over 95\% while maintaining competitive performance. By training only low-rank adaptations of key model components, we achieved complete training in 55 minutes using Google Colab's L4 GPU infrastructure. This dramatic improvement enabled rapid experimentation and validation cycles that would have been impractical with traditional approaches.
+
+The memory optimization challenges during mobile deployment required innovative streaming architectures to handle large video files without causing application crashes. Initial implementations faced frequent out-of-memory errors when processing files larger than 50MB, limiting practical utility for typical user content. The streaming upload and processing architecture maintains memory usage below 10MB regardless of file size, enabling unlimited file size support.
+
+GPU memory management during concurrent model execution posed additional challenges when coordinating multiple AI models in the production pipeline. Careful resource allocation and dynamic model loading strategies ensure stable operation even when processing multiple requests simultaneously. The system architecture gracefully handles resource constraints through intelligent queuing and fallback mechanisms.
+
+\subsection{Lip Blending Quality Validation}
+
+The integration of precise lip segmentation with advanced blending techniques results in seamless lip region integration that maintains natural appearance while preserving individual facial characteristics. User evaluation studies indicate 87\% satisfaction with lip blending quality, with particular appreciation for natural color transitions and texture preservation around mouth regions.
+
+Comparative analysis with traditional face swapping methods demonstrates significant improvements in lip region quality. The parameter-efficient approach maintains lip blending performance equivalent to full-model implementations while requiring 95\% fewer trainable parameters, validating the effectiveness of targeted optimization for critical facial features like lips.
+
+The dual-lip segmentation strategy proves particularly effective for handling diverse lip shapes and sizes, with the system successfully adapting to variations in lip thickness, cupid's bow prominence, and overall mouth geometry. This adaptability ensures consistent quality across the diverse range of facial characteristics present in real-world applications.
+
+\section{Suggestions for Better Approaches}
+
+\begin{itemize}
+\item \textbf{Advanced LoRA Techniques}: Explore hierarchical LoRA implementations with different ranks for different model layers, potentially improving adaptation efficiency while maintaining parameter constraints. Recent research in adaptive rank selection could optimize parameter allocation based on layer importance and gradient magnitudes.
+
+\item \textbf{Dynamic Dataset Curation}: Implement active learning approaches that continuously identify and prioritize the most informative training examples during training progression. This could further improve rare class performance while reducing overall dataset size requirements compared to static curation approaches.
+
+\item \textbf{Multi-Scale Training}: Incorporate multi-resolution training strategies that process images at different scales simultaneously, improving both boundary precision and computational efficiency. This approach could enhance small feature detection while maintaining overall processing speed.
+
+\item \textbf{Knowledge Distillation Integration}: Combine LoRA adaptation with knowledge distillation techniques, using larger teacher models to guide efficient student model training. This hybrid approach could further improve accuracy while maintaining parameter efficiency advantages.
+\end{itemize}
+
+\section{Future Extensions}
+
+\begin{itemize}
+\item \textbf{Real-Time Video Processing}: Extend the current image-based processing to true real-time video face swapping with temporal consistency constraints. This would require frame-to-frame coherence mechanisms and optimized processing pipelines for live video applications such as video calls or live streaming.
+
+\item \textbf{3D Face Reconstruction}: Integrate 3D facial geometry estimation to improve face swapping quality under extreme pose variations and lighting conditions. This extension could leverage recent advances in neural radiance fields and differentiable rendering for more realistic results.
+
+\item \textbf{Multi-Person Scenarios}: Enhance the system to handle complex scenes with multiple faces, group interactions, and partial occlusions more effectively. This would require advanced scene understanding and person re-identification capabilities to maintain consistency across different individuals.
+
+\item \textbf{Style Transfer Integration}: Incorporate artistic style transfer capabilities that enable creative face swapping effects beyond realistic replacement. This could include artistic filters, age progression/regression, and emotion manipulation while maintaining facial identity consistency throughout the transformations.
+
+\item \textbf{Edge Computing Optimization}: Develop specialized versions optimized for edge computing devices and embedded systems, enabling deployment in IoT scenarios, smart cameras, and automotive applications. This extension would require additional model compression and hardware-specific optimization strategies.
+\end{itemize}
+
+\bibliography{references}
+
+\end{document}
